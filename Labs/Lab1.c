@@ -32,7 +32,7 @@ int main() {
     baz(&num);
 
     /*print the value of num*/
-    printf("The new value of num is: %d\n", num);
+    printf("Double the value of num is: %d\n", num);
 
     printf("\n");
 
