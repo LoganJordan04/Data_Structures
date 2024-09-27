@@ -2,7 +2,7 @@
 CS260 - Assignment 1
 Name: Logan Jordan
 Date: 9/26/24
-Solution description: Various exercises including structures, pointers, and dynamic memory allocation.
+Solution description: Three programming exercises including structures, pointers, and dynamic memory allocation.
 */
 
 #include <stdio.h>
@@ -40,9 +40,6 @@ int main() {
     address formats when printing - Don't worry about it*/
     printf("The address of x is: %p\n", &x);
 
-    /*Write foo - see below main*/
-
-
     /*Call foo() with the address of x*/
     foo(&x);
 
@@ -51,26 +48,33 @@ int main() {
 
     /*Declare three integers a, b and c and initialize them to 11, 12, & 13
     respectively*/
+    int a = 11;
+    int b = 12;
+    int c = 13;
 
     /*Print the values of a, b and c*/
-
-    /*Write the bar() function*/
+    printf("The values of a: %d, b: %d, and c: %d\n", a, b, c);
 
     /*
     The next two steps are one line of code
     Call bar() appropriately, passing a,b,c as parameters
     Print the return value of the call to bar
     */
+    printf("The return value of bar is: %d\n", bar(&a, &b, c));
 
     /*Print the values of a, b and c again*/
+    printf("The new values of a: %d, b: %d, and c: %d\n", a, b, c);
+
     /*
     Is the return value different than the value of c? Why?
     Express your short answer as a comment below
+
+    Yes. This is because we passed c by value into bar(), which creates a copy of the parameter so the original value
+    isn't modified. On the contrary, we passed a and b by reference, which permanently modifies their values.
     */
 
-
     /*#3*/
-    printf("#3 \n");
+    printf("\n#3 \n");
     /*create a pointer to Dog struct called dogs*/
 
     /*Write the allocate function*/
@@ -115,7 +119,7 @@ void foo(int* ptr) {
     printf("The address pointed by ptr to is: %p\n", ptr);
 
     /*Print the address of ptr itself*/
-    printf("The address of ptr is: %p", &ptr);
+    printf("The address of ptr is: %p\n", &ptr);
 }
 
 /*
@@ -131,10 +135,13 @@ int bar(int* a, int* b, int c){
     assert(a != NULL);
     assert(b != NULL);
     /*Set a to double its original value*/
+    *a *= 2;
 
     /*Set b to half its original value*/
+    *b /= 2;
 
     /*Assign a+b to c*/
+    c = (*b + *a);
 
     /* Do not return 0 - this is just here to make the function compile */
     return c;
