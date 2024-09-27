@@ -76,30 +76,25 @@ int main() {
     /*#3*/
     printf("\n#3 \n");
     /*create a pointer to Dog struct called dogs*/
-
-    /*Write the allocate function*/
+    struct Dog *dogs = 0;
 
     /*
     call the allocate() function
     set dogs to the pointer returned by the allocate function
     */
-
-    /*Write the generate function*/
+    dogs = allocate();
 
     /*call generate*/
-
-    /*Write the output function*/
+    generate(dogs);
 
     /*call output*/
-
-    /*Write the stats function*/
+    output(dogs);
 
     /*call stats*/
-
-    /*Write the deallocate function*/
+    stats(dogs);
 
     /*call deallocate*/
-
+    deallocate(dogs);
 
     return 0;
 }
@@ -156,9 +151,7 @@ return: pointer to newly allocated dog array
 */
 struct Dog* allocate() {
     /*Allocate memory for ten dogs - use malloc*/
-
-
-    return 0;
+    return malloc(sizeof(struct Dog)*10);
 }
 
 /*
@@ -179,7 +172,18 @@ void generate(struct Dog* dogs) {
     Calculate random numbers between using rand().
     Simply assigning ages 9, 10, 11... is not sufficient
     */
+    int i;
+    int sexInt;
+    for(i = 0; i < 10; i++) {
+        dogs[i].age = rand()%17;
 
+        sexInt = rand()%2;
+        if (sexInt == 0) {
+            dogs[i].sex = 'M';
+        } else {
+            dogs[i].sex = 'F';
+        }
+    }
 }
 
 /*
@@ -199,7 +203,10 @@ void output(struct Dog* dogs) {
     ...
     Dog 10: Age: varAge Sex: varSex
     */
-
+    int i;
+    for(i = 0; i < 10; i++) {
+        printf("Dog %d: Age: %d Sex: %c\n", i+1, dogs[i].age, dogs[i].sex);
+    }
 }
 
 /*
@@ -212,8 +219,32 @@ post: min, max and average of 10 dogs are displayed to the console
 */
 void stats(struct Dog* dogs) {
     assert(dogs != NULL);
-    /*Compute and print the minimum, maximum and average age of the ten dogs*/
+    /*Compute the min age of the ten dogs*/
+    int i;
+    int youngestDog = dogs[0].age;
+    for(i = 0; i < 10; i++) {
+        if(dogs[i].age < youngestDog) {
+            youngestDog = dogs[i].age;
+        }
+    }
+    /*Compute the max age of the ten dogs*/
+    int oldestDog = dogs[0].age;
+    for(i = 0; i < 10; i++) {
+        if(dogs[i].age > oldestDog) {
+            oldestDog = dogs[i].age;
+        }
+    }
+    /*Compute the average age of the ten dogs*/
+    double avgAge = 0;
+    for(i = 0; i < 10; i++) {
+        avgAge += dogs[i].age;
+    }
+    avgAge /= 10;
 
+    /*Print the min, max, and average age of the ten dogs*/
+    printf("The oldest dog is: %d\n", oldestDog);
+    printf("The youngest dog is: %d\n", youngestDog);
+    printf("The average age of the dogs is: %f\n", avgAge);
 }
 
 /*
@@ -226,5 +257,6 @@ return: none
 */
 void deallocate(struct Dog* dogs) {
     /*Deallocate memory from dogs by calling free()*/
-
+    free(dogs);
+    dogs = 0;
 }
