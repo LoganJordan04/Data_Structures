@@ -1,8 +1,8 @@
 /*
 CS260 - Assignment 1
-Name:
-Date:
-Solution description:
+Name: Logan Jordan
+Date: 9/26/24
+Solution description: Various exercises including structures, pointers, and dynamic memory allocation.
 */
 
 #include <stdio.h>
@@ -33,18 +33,21 @@ int main() {
     printf("#1 \n");
 
     /*declare an integer x*/
+    int x = 1;
 
     /*print the address of x*/
     /*HINT - You might get warnings about format specifiers not agreeing with
     address formats when printing - Don't worry about it*/
+    printf("The address of x is: %p\n", &x);
 
     /*Write foo - see below main*/
 
-    /*Call foo() with the address of x*/
 
+    /*Call foo() with the address of x*/
+    foo(&x);
 
     /*#2*/
-    printf("#2 \n");
+    printf("\n#2 \n");
 
     /*Declare three integers a, b and c and initialize them to 11, 12, & 13
     respectively*/
@@ -106,11 +109,13 @@ return: none
 */
 void foo(int* ptr) {
     /*Print the value pointed to by ptr*/
+    printf("The value pointed to by ptr is: %d\n", *ptr);
 
     /*Print the address pointed to by ptr*/
+    printf("The address pointed by ptr to is: %p\n", ptr);
 
     /*Print the address of ptr itself*/
-
+    printf("The address of ptr is: %p", &ptr);
 }
 
 /*
