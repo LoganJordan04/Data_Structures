@@ -2,6 +2,6 @@
 
 <h3>Weekly Overview:</h3>
 
-* **Week 1 - Structures, Pointers, and Dynamic Memory Allocation:** Lab 1, Assignment 1
+* **Week 1 - Structures, Pointers, and Dynamic Memory Allocation**
 
-* **Week 2 - ADTs and Dynamic Arrays**:
+* **Week 2 - ADTs and Dynamic Arrays**
