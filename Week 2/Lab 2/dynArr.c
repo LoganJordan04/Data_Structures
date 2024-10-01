@@ -37,10 +37,8 @@ DynArr* createDynArr(int cap) {
 	DynArr *d = malloc(sizeof(DynArr));
 	initDynArr(d, cap);
 
-    /*FIX ME: Change the return value*/
-	return 0;
+	return d;
 }
-
 
 /*
 initDynArr: initialize dynamic array members and allocate member to the data array
@@ -54,8 +52,12 @@ post: cap is set for the dynamic array
 */
 void initDynArr(DynArr *d, int cap) {
 	printf("Called initDynArr()\n");
-	/*FIX ME: You will write this function*/
+	assert(d != NULL);
+	assert(cap > 0);
 
+	d -> size = 0;
+	d -> capacity = cap;
+	d -> data = malloc(sizeof(int) * cap);
 
 }
 
@@ -63,7 +65,7 @@ void initDynArr(DynArr *d, int cap) {
 addDynArr: adds an element to the end of the dynamic array
 param: d is the pointer to the dynamic array
 param: val is the value to add to the end of the dynamic array
-pre: the dynArry is not null
+pre: the dynArray is not null
 post: size increases by 1
 post: if reached capacity, capacity is doubled
 post: val is in the last utilized position in the array
@@ -94,7 +96,6 @@ int getDynArr(DynArr *d, int pos) {
 
 	/*FIX ME: Change the return value*/
 	return 0;
-
 }
 
 /*
@@ -186,7 +187,6 @@ int sizeDynArr(DynArr *d) {
 
     /*FIX ME: Change the return value*/
     return 0;
-
 }
 
 /* ------------------Stack Interface Functions------------------ */
