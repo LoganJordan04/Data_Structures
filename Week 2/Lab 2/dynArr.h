@@ -1,4 +1,7 @@
-/*dynArr.h : Dynamic Array implementation*/
+/*
+Logan Jordan - 10/1/24
+dynArr.h : Dynamic Array implementation
+*/
 
 #ifndef DYNAMIC_ARRAY_INCLUDED
 #define DYNAMIC_ARRAY_INCLUDED 1
@@ -23,4 +26,3 @@ void pop(DynArr *d);
 int peek(DynArr *d);
 
 #endif
-

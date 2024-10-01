@@ -1,7 +1,8 @@
 /*
-testDynArray.c
-This file is used for testing the dynArr.c file
- */
+Logan Jordan - 10/1/24
+testDynArray.c: This file is used for testing the dynArr.c file
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "dynArr.h"
