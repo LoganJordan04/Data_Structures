@@ -8,5 +8,4 @@ add_executable(Lab1 "Week 1/Lab1.c")
 add_executable(Assignment1 "Week 1/Assignment1.c")
 
 # Week 2:
-add_executable(dynArr "Week 2/Lab 2/dynArr.c")
 add_executable(testDynArr "Week 2/Lab 2/testDynArr.c")
