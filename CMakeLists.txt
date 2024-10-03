@@ -10,3 +10,5 @@ add_executable(Assignment1 "Week 1/Assignment1.c")
 # Week 2:
 add_executable(testDynArr "Week 2/Lab 2/testDynArr.c"
         "Week 2/Lab 2/dynArr.c")
+add_executable(testDynArray "Week 2/Assignment 2/testDynArray.c"
+        "Week 2/Assignment 2/dynamicArray.c")
