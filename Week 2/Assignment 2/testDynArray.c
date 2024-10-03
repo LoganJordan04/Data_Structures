@@ -1,10 +1,11 @@
-/* 	testDynArray.c
-	This file is used for testing the dynamicArray.c file
- */
+/*
+Logan Jordan - 10/3/24
+testDynArray.c: This file is used for testing the dynamicArray.c file
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "dynamicArray.h"
-
 
 void assertTrue(int predicate, char *message) {
 	printf("%s: ", message);
@@ -15,7 +16,7 @@ void assertTrue(int predicate, char *message) {
 }
 
 
-/*this main function contains some*/
+/*this main function contains some tests for your dynamic array and bag implementations*/
 int main(){
 	DynArr *dyn;
 	dyn = createDynArr(2);

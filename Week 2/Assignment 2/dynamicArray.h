@@ -1,4 +1,7 @@
-/*dynamicArray.h : Dynamic Array implementation*/
+/*
+Logan Jordan - 10/3/24
+dynamicArray.h : Dynamic Array implementation
+*/
 
 #ifndef DYNAMIC_ARRAY_INCLUDED
 #define DYNAMIC_ARRAY_INCLUDED 1
