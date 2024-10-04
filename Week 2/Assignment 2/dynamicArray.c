@@ -222,9 +222,9 @@ post: bag contains one more element in last position
 HINT - Call a function that you already wrote
 */
 void addBag(DynArr *bag, int val) {
-	/*FIX ME: You will write this function*/
+    assert(bag != NULL);
 
-
+    addDynArr(bag, val);
 }
 
 /*
@@ -237,9 +237,15 @@ pre: bag is not empty
 post: no changes to the bag
 */
 int containsBag(DynArr *bag, int val) {
-	/*FIX ME: You will write this function*/
+    assert(bag != NULL);
+    assert(bag->size > 0);
 
-
+    int i;
+    for(i = 0; i < bag->size; i++) {
+        if (getDynArr(bag, i) == val) {
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -253,6 +259,13 @@ post: val has been removed
 post: size of the bag is reduced by 1
 */
 void removeBag(DynArr *bag, int val) {
-	/*FIX ME: You will write this function*/
+    assert(bag != NULL);
+    assert(bag->size > 0);
 
+    int i;
+    for(i = 0; i < bag->size; i++) {
+        if (getDynArr(bag, i) == val) {
+            removeAtDynArr(bag, i);
+        }
+    }
 }
