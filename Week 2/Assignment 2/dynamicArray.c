@@ -34,7 +34,7 @@ post: capacity is cap
 */
 void initDynArr(DynArr *d, int cap) {
 	assert(cap > 0);
-	assert(d != 0);
+	assert(d != NULL);
 
 	d->data = malloc(sizeof(double) * cap);
 	assert(d->data != 0);
@@ -100,7 +100,7 @@ pre: d is not null
 post: no changes to the dynArray
 */
 int sizeDynArr(DynArr *d) {
-    assert(d != 0);
+    assert(d != NULL);
 
 	return d->size;
 }
@@ -115,10 +115,14 @@ post: if reached capacity, capacity is doubled
 post: val is in the last utilized position in the array
 */
 void addDynArr(DynArr *d, double val) {
-	/*FIX ME: You will write this function*/
+    assert(d != NULL);
 
-
-
+    if(d->size == d->capacity) {
+        d->capacity += 2;
+        d->data = realloc(d->data, sizeof(double) * d->capacity);
+    }
+    d->data[d->size] = val;
+    d->size++;
 }
 
 /*
@@ -133,12 +137,11 @@ pre: pos < size
 post: no changes to the dynArray
 */
 double getDynArr(DynArr *d, int pos) {
-	/*FIX ME: You will write this function*/
+    assert(d != NULL);
+    assert(d->size != 0);
+    assert(pos >= 0 && pos < d->size);
 
-
-	/*FIX ME: you must change this return value*/
-	return 0;
-
+    return d->data[pos];
 }
 
 /*
@@ -153,9 +156,11 @@ pre: pos < size
 post: index pos contains new value, val
 */
 void putDynArr(DynArr *d, int pos, double val) {
-	/*FIX ME: You will write this function*/
+    assert(d != NULL);
+    assert(d->size != 0);
+    assert(pos >= 0 && pos < d->size);
 
-
+    d->data[pos] = val;
 }
 
 /*
@@ -168,10 +173,17 @@ pre: i & j are greater than or equal to 0
 pre: i & j are less than size
 post: index i now holds the value at j and index j now holds the value at i
 */
-void swapDynArr(DynArr *d, int i, int  j) {
-    /*FIX ME: You will write this function*/
+void swapDynArr(DynArr *d, int i, int j) {
+    assert(d != NULL);
+    assert(d->size != 0);
+    assert(i >= 0 && i < d->size);
+    assert(j >= 0 && j < d->size);
 
+    /*Temporary variable for the data at index i*/
+    double iData = d->data[i];
 
+    d->data[i] = d->data[j];
+    d->data[j] = iData;
 }
 
 /*
@@ -187,9 +199,15 @@ post: the elements past pos are shifted
 post: size is decremented
 */
 void removeAtDynArr(DynArr *d, int pos) {
-	/*FIX ME: You will write this function*/
+    assert(d != NULL);
+    assert(d->size != 0);
+    assert(pos >= 0 && pos < d->size);
 
-
+    int i;
+    for(i = pos; i < d->size; i++) {
+        d->data[i] = d->data[i+1];
+    }
+    d->size--;
 }
 
 /* ------------------Bag Interface Functions------------------ */
