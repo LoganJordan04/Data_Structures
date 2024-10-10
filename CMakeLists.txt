@@ -16,3 +16,5 @@ add_executable(testDynArray "Week 2/Assignment 2/testDynArray.c"
 
 # Week 3:
 add_executable(Lab3 "Week 3/Lab3.c")
+add_executable(main_bag "Week 3/Assignment 3/main_bag.c"
+        "Week 3/Assignment 3/listbag.c")
