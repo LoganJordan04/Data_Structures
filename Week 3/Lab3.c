@@ -1,6 +1,6 @@
 /*
 Logan Jordan - 10/9/24
-Lab3.c: Linked list implementation
+Lab3.c: Doubly linked inked list implementation
 */
 
 #include <stdio.h>
