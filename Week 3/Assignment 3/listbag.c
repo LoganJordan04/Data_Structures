@@ -9,7 +9,7 @@ listbag.c: Linked list implementation
 #include <stdio.h>
 
 /* Turn on for debugging messages */
-int debug = 0;
+int debug = 1;
 
 /*
 initList: initialize the list - create the head and initialize pointers
@@ -31,12 +31,16 @@ param: e is the value to add to the list
 pre: head is not null
 post: memory has been dynamically allocated for a new link
 post: new link is added to the front of the list
-HINT - Notice that we are passing the head of the list as opposed ot the list
 */
 void addFrontList (struct Link *head, TYPE e) {
 	if(debug)printf("Inserting %d at head of list\n", e);
-	/* FIX ME*/
+	assert(head != NULL);
 
+    struct Link *temp = malloc(sizeof(struct Link));
+    temp->value = e;
+    temp->next = head->next;
+
+    head->next = temp;
 }
 
 /*
@@ -49,8 +53,17 @@ post: new link is added to the back of the list
 */
 void addBackList(struct Link *head, TYPE e) {
 	if(debug) printf("Inserting %d at back of list\n", e);
-	/* FIX ME*/
+    assert(head != NULL);
 
+    struct Link *temp = malloc(sizeof(struct Link));
+    temp->value = e;
+    temp->next = NULL;
+
+    struct Link *curr = head;
+    while(curr->next != NULL) {
+        curr = curr->next;
+    }
+    curr->next = temp;
 }
 
 /*
@@ -63,8 +76,15 @@ post: no changes to the list
 */
 void displayList (struct Link *head) {
     printf("List Contents: ");
-	/* FIX ME*/
+	assert(head != NULL);
+    assert(!isEmptyList(head));
 
+    struct Link *curr = head->next;
+    while(curr != NULL) {
+        printf("%d ", curr->value);
+        curr = curr->next;
+    }
+    printf("\n");
 }
 
 /*
@@ -76,13 +96,14 @@ pre: list is not empty
 post: no changes to the list
 */
 TYPE frontList (struct Link *head) {
-	/* FIX ME*/
+    assert(head != NULL);
+    assert(!isEmptyList(head));
 
-	return 0;
+	return head->next->value;
 }
 
 /*
-backList: return the element at the back of the  list
+backList: return the element at the back of the list
 param: head is the front of the list
 return: return value at back of the list
 pre: head is not null
@@ -90,9 +111,15 @@ pre: list is not empty
 post: no changes to the list
 */
 TYPE backList(struct Link *head) {
-	/* FIX ME*/
+    assert(head != NULL);
+    assert(!isEmptyList(head));
 
-    return 0;
+    struct Link *curr = head;
+    while(curr->next != NULL) {
+        curr = curr->next;
+    }
+
+    return curr->value;
 }
 
 /*
@@ -105,8 +132,13 @@ post: old head has been freed
 */
 void removeFrontList(struct Link *head) {
 	if(debug) printf("remove front of list: \n");
-	/* FIX ME*/
+    assert(head != NULL);
+    assert(!isEmptyList(head));
 
+    struct Link *delCurr = head->next;
+    head->next = delCurr->next;
+
+    free(delCurr);
 }
 
 /*
@@ -119,8 +151,17 @@ post: old head has been freed
 */
 void removeBackList (struct Link *head) {
 	if(debug) printf("remove back of list: \n");
-	/* FIX ME*/
+    assert(head != NULL);
+    assert(!isEmptyList(head));
 
+    struct Link *delCurr = head;
+    struct Link *curr = NULL;
+    while(delCurr->next != NULL) {
+        curr = delCurr;
+        delCurr = delCurr->next;
+    }
+    curr->next = NULL;
+    free(delCurr);
 }
 
 /*
