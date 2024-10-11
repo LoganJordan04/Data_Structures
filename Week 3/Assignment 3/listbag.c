@@ -9,7 +9,7 @@ listbag.c: Linked list implementation
 #include <stdio.h>
 
 /* Turn on for debugging messages */
-int debug = 1;
+int debug = 0;
 
 /*
 initList: initialize the list - create the head and initialize pointers
