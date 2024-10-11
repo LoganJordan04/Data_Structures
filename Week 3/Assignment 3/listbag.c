@@ -228,12 +228,12 @@ param: b is the bag
 pre: b is not null
 post: memory for list is dynamically allocated
 post: lst is initialized using initList()
-post: size  is initialized to 0
+post: size is initialized to 0
 */
 void initBag(struct bag* b) {
-	assert( b != NULL);
-	b->lst = (struct List*)malloc(sizeof(struct List));/*Allocate for the list part of the bag*/
-	initList(b->lst);/*Initialize list*/
+	assert(b != NULL);
+	b->lst = (struct List*)malloc(sizeof(struct List)); /*Allocate for the list part of the bag*/
+	initList(b->lst); /*Initialize list*/
 	b->size=0;
 }
 
@@ -244,12 +244,12 @@ param: val is the value added to the bag
 pre: b is not null
 post: val is added to the bag (list implementing the bag)
 post: size is incremented
-HINT: use linked list functions to manipulate the list
-HINT: You will pass the head of the list which is part of the bag (b->list->head)
 */
 void addToBag(struct bag* b, TYPE val) {
- 	/* FIX ME*/
+    assert(b != NULL);
 
+    addFrontList(b->lst->head, val);
+    b->size++;
 }
 
 /*
@@ -261,8 +261,15 @@ pre: b is not null
 post: no changes to the bag
 */
 int bagContains(struct bag* b, TYPE val) {
-	/* FIX ME*/
+    assert(b != NULL);
 
+    struct Link *curr = b->lst->head;
+    while(curr->next != NULL) {
+        curr = curr->next;
+        if (curr->value == val) {
+            return 1;
+        }
+    }
 	return 0;
 }
 
@@ -274,11 +281,13 @@ pre: b is not null
 pre: b contains val - use bagContains()
 post: link is removed from bag
 post: size is decremented
-HINT: use linked list functions to manipulate the list
 */
 void removeFromBag(struct bag* b, TYPE val) {
-	/*FIX ME*/
+    assert(b != NULL);
+    assert(bagContains(b, val));
 
+    listRemove(b->lst->head, val);
+    b->size--;
 }
 
 /*
@@ -289,8 +298,11 @@ pre: b is not null
 post: no changes to the bag
 */
 int isEmptyBag(struct bag* b) {
-	/* FIX ME*/
+    assert(b != NULL);
 
+	if(!isEmptyList(b->lst->head)) {
+        return 1;
+    }
     return 0;
 }
 
@@ -300,11 +312,11 @@ param: b is the the bag
 pre: b is not null
 post: bag is freed
 post: list is freed
-HINT: use linked list functions to manipulate the list
 */
 void freeBag(struct bag *b) {
-	/* FIX ME*/
+    assert(b != NULL);
 
+    freeList(b->lst);
 }
 
 /*-------------------- Pt II - Algorithm Analysis --------------------------*/
