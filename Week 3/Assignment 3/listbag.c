@@ -324,17 +324,27 @@ void freeBag(struct bag *b) {
 /*
 
 #1 - What is the worst case performance of the removeFromBag() operation expressed in terms of the size of the bag(n)? Describe the worst case in words.(2 Pt)
+        The worst case performance of removeFromBag() is if the object was added to the list last. This is because removeFromBag() uses listRemove() which
+        starts at the head and iterates though the whole list to find object to remove.
 
 #2 - What is the best case performance of the removeFromBag() operation expressed in terms of the size of the bag(n)? Describe the best case in words. (2 Pts)
+        The best case performance of removeFromBag() is if the object was added to the list first. This is because removeFromBag() uses listRemove() which
+        starts at the head. If the object to be removed is pointed to by the head, then it's found immediately.
 
 #3 - What is the average number of comparisons that removeFromBag() performs expressed in terms of the size of the bag(n)? (1 Pt)
+        The avg. number of comparison that removeFromBag() performs is about half the size of the bag.
 
 #4 - What is the worst case performance for the addToBag() operation?  (1 Pts)
+        The worst case performance of addToBag() is O(1). See #6 for reasoning.
 
 #5 - What is the best case performance for the addToBag() operation? (1 Pts)
+        The best case performance of addToBag() is O(1). See #6 for reasoning.
 
 #6 - Did you use addFrontList() or addBackList() to add elements to your bag? Why was this the best choice? (2 Pts)
+        I used addFrontList() to add elements to the bag. This is the best choice because the operation is constant time and ordering isn't needed for a bag.
 
 #7 - Is a linked list or a dynamic array a better choice for adding elements to a bag? Explain your answer. (3 Pts)
+        A linked list is the better choice for adding elements to a bag because the operation is constant time for the best and worst cases.
+        Where a dynamic array falls behind in efficiency is the worst case, or when a re-size is needed to add an element.
 
 */
