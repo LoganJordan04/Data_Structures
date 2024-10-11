@@ -154,8 +154,7 @@ void removeBackList (struct Link *head) {
     assert(head != NULL);
     assert(!isEmptyList(head));
 
-    struct Link *delCurr = head;
-    struct Link *curr = NULL;
+    struct Link *delCurr = head, *curr;
     while(delCurr->next != NULL) {
         curr = delCurr;
         delCurr = delCurr->next;
@@ -171,12 +170,20 @@ param: e is the value to remove
 pre: head is not null
 pre: list is not empty
 post: link containing  first occurrence of value e has been freed
-post: pointer before link containing  first occurrence of value has been updated
+post: pointer before link containing first occurrence of value has been updated
 */
 void listRemove (struct Link *head, TYPE e) {
 	if(debug) printf("remove %d from list: \n", e);
-	/* FIX ME*/
+    assert(head != NULL);
+    assert(!isEmptyList(head));
 
+    struct Link *delCurr = head, *prev;
+    while(delCurr->value != e){
+        prev = delCurr;
+        delCurr = delCurr->next;
+    }
+    prev->next = delCurr->next;
+    free(delCurr);
 }
 
 /*
@@ -203,8 +210,14 @@ post: lst has been freed
 post: lst points to nothing
 */
 void freeList(struct List *lst) {
-	/* FIX ME*/
+    assert(lst->head != NULL);
 
+    struct Link *temp = NULL;
+    while(lst->head != NULL) {
+        temp = lst->head;
+        lst->head = lst->head->next;
+        free(temp);
+    }
 }
 
 /* -----------------------ListBag functions begin here---------------------- */
