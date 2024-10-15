@@ -1,6 +1,6 @@
 /*
 Logan Jordan - 10/15/24
-deque.c: Deque implementation using a doubly linked list
+deque.h: Deque implementation using a doubly linked list
 */
 
 #ifndef __DEQUE_H
