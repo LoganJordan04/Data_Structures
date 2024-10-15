@@ -1,6 +1,6 @@
 /*
 Logan Jordan - 10/15/24
-deque.c: Deque implementation using a doubly linked list
+deque.c: Deque implementation using a linked list
 */
 
 #include <stdio.h>
@@ -18,12 +18,15 @@ post: size set to 0
 */
 void initList(struct Deque *d) {
     printf("Deque initialized\n");
-    /* FIX ME */
+    assert(d != NULL);
 
+    d->head = NULL;
+    d->tail = NULL;
+    d->size = 0;
 }
 
 /*
-function: addFront - add new DLink to the front of the deque
+function: addFront - add new Link to the front of the deque
 param1 - d - deque
 param2 - val - value to insert
 pre: d is not null
@@ -31,16 +34,24 @@ post: memory for a new Link has been allocated dynamically
 post: new Link has value - val
 post: new Link has been added to the head of the deque
 post: pointers have been updated
-HINT: A list with one link is a special case
 */
 void addFront(struct Deque *d, TYPE val) {
     printf("addFront: %.1f \n", val);
-    /* FIX ME */
+    assert(d != NULL);
 
+    struct Link *temp = malloc(sizeof(struct Link));
+    temp->value = val;
+    temp->next = d->head;
+
+    if(d->size == 0) {
+        d->tail = temp;
+    }
+    d->head = temp;
+    d->size++;
 }
 
 /*
-function: addBack- add new Link to the back of the deque
+function: addBack - add new Link to the back of the deque
 param1 - d - deque
 param2 - val - value to insert
 pre: d is not null
@@ -48,27 +59,42 @@ post: memory for a new Link has been allocated dynamically
 post: new Link has value - val
 post: new Link has been added to the tail of the deque
 post: pointers have been updated
-HINT: A list with one link is a special case
 */
 void addBack(struct Deque *d, TYPE val) {
     printf("addBack: %.1f \n", val);
-    /* FIX ME */
+    assert(d != NULL);
 
+    struct Link *temp = malloc(sizeof(struct Link));
+    temp->value = val;
+    temp->next = NULL;
+
+    if(d->size == 0) {
+        d->head = temp;
+    }
+    d->tail->next = temp;
+    d->tail = temp;
+    d->size++;
 }
 
 /*
 function: print - print from front head to tail
 param1 - d - deque
 pre: d is not null
-post: d has been printed to standard output -  output is separated by spaces
+post: d has been printed to standard output - output is separated by spaces
 post: no changes to the deque
 */
 void print(struct Deque *d) {
+    assert(d != NULL);
+
     if(d->size == 0) {
         printf("Empty deque\n");
     }
-    /* FIX ME */
-    
+
+    struct Link *curr = d->head;
+    while (curr != NULL) {
+        printf("%.1f ", curr->value);
+        curr = curr->next;
+    }
     printf("\n");
 }
 
