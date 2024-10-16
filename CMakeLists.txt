@@ -22,3 +22,5 @@ add_executable(main_bag "Week 3/Assignment 3/main_bag.c"
 # Week 4:
 add_executable(main_deque "Week 4/Lab 4/main_deque.c"
         "Week 4/Lab 4/deque.c")
+add_executable(main_cirList "Week 4/Assignment 4/main_cirList.c"
+        "Week 4/Assignment 4/cirList.c")
