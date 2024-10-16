@@ -91,6 +91,7 @@ void print(struct Deque *d) {
     }
 
     struct Link *curr = d->head;
+
     while (curr != NULL) {
         printf("%.1f ", curr->value);
         curr = curr->next;
@@ -102,12 +103,16 @@ void print(struct Deque *d) {
 function: printReverse - recursive function to print from front tail to head
 param1 - d - deque
 pre: none
-post: d has been printed to standard output -  output is separated by spaces
+post: d has been printed to standard output - output is separated by spaces
 post: no changes to the deque
 */
 void printReverse(struct Link *curr) {
-    /* FIX ME */
-
+    if(curr == NULL) {
+        printf("\n");
+        return;
+    }
+    printReverse(curr->next);
+    printf("%.1f ", curr->value);
 }
 
 /*
@@ -119,9 +124,10 @@ pre: d is not empty
 post: no changes to the deque
 */
 TYPE getFront(struct Deque *d) {
-    /* FIX ME */
+    assert(d != NULL);
+    assert(d->size != 0);
 
-    return 0;
+    return d->head->value;
 }
 
 /*
@@ -133,9 +139,10 @@ pre: d is not empty
 post: no changes to the deque
 */
 TYPE getBack(struct Deque *d) {
-    /* FIX ME */
+    assert(d != NULL);
+    assert(d->size != 0);
 
-    return 0;
+    return d->tail->value;
 }
 
 /*
@@ -146,12 +153,22 @@ pre: d is not empty
 post: front of the linked list has been removed from the list
 post: memory has been freed for the Link
 post: size is decremented
-HINT: A list with one link is a special case
 */
 void removeFront(struct Deque *d) {
     printf("removeFront\n");
-    /* FIX ME */
+    assert(d != NULL);
+    assert(d->size != 0);
 
+    struct Link *del = d->head;
+
+    if(d->size == 1) {
+        d->tail = NULL;
+    }
+    d->head = del->next;
+
+    free(del);
+    del = 0;
+    d->size--;
 }
 
 /*
@@ -162,12 +179,28 @@ pre: d is not empty
 post: back of the linked list has been removed from the list
 post: memory has been freed for the Link
 post: size is decremented
-HINT: A list with one link is a special case
 */
 void removeBack(struct Deque *d) {
     printf("removeBack\n");
-    /* FIX ME */
+    assert(d != NULL);
+    assert(d->size != 0);
 
+    struct Link *del = d->head;
+    struct Link *prev = del;
+
+    if(d->size == 1) {
+        d->head = NULL;
+    }
+    while(del != d->tail) {
+        prev = del;
+        del = del->next;
+    }
+    prev->next = NULL;
+    d->tail = prev;
+
+    free(del);
+    del = 0;
+    d->size--;
 }
 
 /*
@@ -178,6 +211,18 @@ post: all links have been freed
 post: the deque has been freed
 */
 void freeDeque(struct Deque *d) {
-    /* FIX ME */
+    assert(d != NULL);
 
+    struct Link *curr = d->head;
+    struct Link *del = curr;
+
+    while(curr != NULL) {
+        del = curr;
+        curr = curr->next;
+        free(del);
+        del = 0;
+    }
+    free(d);
+    d = 0;
+    printf("Deque was freed!\n");
 }
