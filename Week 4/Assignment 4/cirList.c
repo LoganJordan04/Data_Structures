@@ -10,7 +10,7 @@ cirList.c: Circularly linked list implementation
 
 /*
 initCirList: Initialize the circularly linked list
-param:  c pointer to the circularly linked list
+param: c pointer to the circularly linked list
 pre: c is not null
 post: memory for c->Sentinel is dynamically allocated
 post: Sentinel links are initialized to point to the sentinel
@@ -23,37 +23,65 @@ void initCirList(struct CirList *c) {
 }
 
 /*
-addFrontCirList: Adds a link to the front of  the circularly linked list
+addFrontCirList: Adds a link to the front of the circularly linked list
 param: c pointer to the circularly linked list
 param: val value for the link to be added
 pre: c is not null
 post: a link storing val is added to the front of the circularly linked list
 post: memory is dynamically allocated for the new link
 post: pointers have been adjusted
-HINT: there are 4 pointers to update
-HINT: in an empty list the front and back point to the new link
 */
 void addFrontCirList(struct CirList *c, TYPE val) {
 	printf("Add to front: %d\n", val);
-	/* FIX ME*/
+    assert(c != NULL);
 
+    struct DLink *temp = malloc(sizeof(struct DLink));
+    temp->value = val;
+
+    if(isEmptyCirList(c)) {
+        temp->next = c->sentinel;
+        temp->prev = c->sentinel;
+
+        c->sentinel->next = temp;
+        c->sentinel->prev = temp;
+    } else {
+        temp->next = c->sentinel->next;
+        temp->prev = c->sentinel;
+
+        c->sentinel->next->prev = temp;
+        c->sentinel->next = temp;
+    }
 }
 
 /*
-addBackCirListDeque: Adds a link to the back of  the circularly linked list
+addBackCirList: Adds a link to the back of the circularly linked list
 param: c pointer to the circularly linked list
 param: val value for the link to be added
 pre: c is not null
 post: a link storing val is added to the back of the circularly linked list
 post: memory is dynamically allocated for the new link
 post: pointers have been adjusted
-HINT: there are 4 pointers to update
-HINT: in an empty list the front and back point to the new link
 */
 void addBackCirList (struct CirList *c, TYPE val) {
 	printf("Add to back %d \n", val);
-	/* FIX ME*/
+    assert(c != NULL);
 
+    struct DLink *temp = malloc(sizeof(struct DLink));
+    temp->value = val;
+
+    if(isEmptyCirList(c)) {
+        temp->next = c->sentinel;
+        temp->prev = c->sentinel;
+
+        c->sentinel->next = temp;
+        c->sentinel->prev = temp;
+    } else {
+        temp->next = c->sentinel;
+        temp->prev = c->sentinel->prev;
+
+        c->sentinel->prev->next = temp;
+        c->sentinel->prev = temp;
+    }
 }
 
 /*
@@ -64,8 +92,14 @@ post: the links in the circularly linked list are printed from front to back
 post: no changes to the circularly linked list
 */
 void printCirList(struct CirList *c) {
-	/* FIX ME*/
+    assert(c != NULL);
 
+    struct DLink *curr = c->sentinel->next;
+    while(curr != c->sentinel) {
+        printf("%d ", curr->value);
+        curr = curr->next;
+    }
+    printf("\n");
 }
 
 /*
@@ -77,9 +111,10 @@ pre: c is not empty
 post: no changes to the circularly linked list
 */
 TYPE frontCirList(struct CirList *c) {
-	/* FIX ME*/
+    assert(c != NULL);
+    assert(!isEmptyCirList(c));
 
-	return 0;
+	return c->sentinel->next->value;
 }
 
 /*
@@ -91,9 +126,10 @@ pre: c is not empty
 post: no changes to the circularly linked list
 */
 TYPE backCirList(struct CirList *c) {
-	/* FIX ME*/
+    assert(c != NULL);
+    assert(!isEmptyCirList(c));
 
-	return 0;
+    return c->sentinel->prev->value;
 }
 
 /*
@@ -107,8 +143,16 @@ post: pointers are adjusted
 */
 void removeFrontCirList(struct CirList *c) {
 	printf("Remove front: %d\n", c->sentinel->next->value);
-	/* FIX ME*/
+    assert(c != NULL);
+    assert(!isEmptyCirList(c));
 
+    struct DLink *del = c->sentinel->next;
+
+    c->sentinel->next = del->next;
+    del->next->prev = c->sentinel;
+
+    free(del);
+    del = 0;
 }
 
 /*
@@ -122,8 +166,16 @@ post: pointers are adjusted
 */
 void removeBackCirList(struct CirList *c) {
 	printf("Remove back: %d\n", c->sentinel->next->value);
-	/* FIX ME*/
+    assert(c != NULL);
+    assert(!isEmptyCirList(c));
 
+    struct DLink *del = c->sentinel->prev;
+
+    c->sentinel->prev = del->prev;
+    del->prev->next = c->sentinel;
+
+    free(del);
+    del = 0;
 }
 
 /*
@@ -134,8 +186,10 @@ ret: 1 if the circularly linked list is empty - otherwise return 0
 post: no changes to the circularly linked list
 */
 int isEmptyCirList(struct CirList *c) {
-	/* FIX ME*/
-
+    assert(c != NULL);
+    if(c->sentinel == c->sentinel->next) {
+        return 1;
+    }
 	return 0;
 }
 
@@ -148,8 +202,22 @@ post: sentinel has been freed
 post: CirList has been freed
 */
 void freeCirList(struct CirList *c) {
-	/* FIX ME*/
+    assert(c != NULL);
 
+    struct DLink *curr = c->sentinel->next;
+    struct DLink *del = NULL;
+
+    while (curr != c->sentinel) {
+        del = curr;
+        curr = curr->next;
+        free(del);
+        del = 0;
+    }
+    free(c->sentinel);
+    free(c);
+    c = 0;
+
+    printf("CirList was freed!\n");
 }
 
 /***********************************Stack Interface***********************************/
