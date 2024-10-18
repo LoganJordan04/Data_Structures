@@ -246,11 +246,12 @@ param: val value to be added
 pre: s is not null
 post: size is incremented
 post: an item has been pushed to the front on the list
-HINT: pass s->lst to a circularly linked list function
 */
 void push(struct Stack *s, TYPE val) {
-    /* FIX ME*/
+    assert(s != NULL);
 
+    addFrontCirList(s->lst, val);
+    s->size++;
 }
 
 /*
@@ -260,11 +261,13 @@ pre: s is not null
 pre: s lst is not empty
 post: size is decremented
 post: an item has been removed from the back of the list
-HINT: pass s->lst to a circularly linked list function
 */
 void pop(struct Stack *s) {
-    /* FIX ME*/
+    assert(s != NULL);
+    assert(!isEmptyStack(s));
 
+    removeFrontCirList(s->lst);
+    s->size--;
 }
 
 /*
@@ -275,12 +278,12 @@ pre: s is not null
 pre: s->lst is not empty
 post: value at the top of the stack is returned
 post: no changes to the stack
-HINT: pass s->lst to a circularly linked list function
 */
-TYPE peek(struct Stack *s){
-    /* FIX ME*/
+TYPE peek(struct Stack *s) {
+    assert(s != NULL);
+    assert(!isEmptyStack(s));
 
-    return 0;
+    return frontCirList(s->lst);
 }
 
 /*
@@ -291,9 +294,9 @@ pre: s is not null
 post: no changes to the stack
 */
 int isEmptyStack(struct Stack *s) {
-    /* FIX ME*/
+    assert(s != NULL);
 
-    return 0;
+    return isEmptyCirList(s->lst);
 }
 
 /*
@@ -304,22 +307,28 @@ post: memory has been freed for s->lst
 post: memory has been freed for the stack
 */
 void freeStack(struct Stack *s) {
-    /* FIX ME*/
+    assert(s != NULL);
 
+    freeCirList(s->lst);
 }
 
 /***********************************Queue Interface***********************************/
 
 /*
 initQueue: Initialize the queue
-param: s pointer to the queue
-pre: s is not null
+param: q pointer to the queue
+pre: q is not null
 post: memory is allocated for the underlying circularly linked list
 post: size is set to 0
-post: s->lst is passed to initCirList()
+post: q->lst is passed to initCirList()
 */
 void initQueue(struct Queue* q) {
-    /* FIX ME*/
+    printf("Init queue\n");
+    assert(q != NULL);
+
+    q->lst = malloc(sizeof(struct CirList));
+    initCirList(q->lst);
+    q->size = 0;
 
 }
 
@@ -330,11 +339,12 @@ param: val value to be added
 pre: q is not null
 post: size is incremented
 post: an item has been added to the back to the queue
-HINT: pass q->lst to a circularly linked list function
 */
 void enqueue(struct Queue* q, TYPE val){
-    /* FIX ME*/
+    assert(q != NULL);
 
+    addBackCirList(q->lst, val);
+    q->size++;
 }
 
 /*
@@ -347,8 +357,11 @@ post: an item has been removed from the front the queue
 HINT: pass q->lst to a circularly linked list function
 */
 void dequeue(struct Queue* q) {
-    /* FIX ME*/
+    assert(q != NULL);
+    assert(!isEmptyQueue(q));
 
+    removeFrontCirList(q->lst);
+    q->size--;
 }
 
 /*
@@ -359,12 +372,12 @@ pre: q is not null
 pre: q->lst is not empty
 post: value at the top of the queue is returned
 post: no changes to the queue
-HINT: pass s->lst to a circularly linked list function
 */
 TYPE peekQ(struct Queue* q) {
-    /* FIX ME*/
+    assert(q != NULL);
+    assert(!isEmptyQueue(q));
 
-    return 0;
+    return frontCirList(q->lst);
 }
 
 /*
@@ -375,9 +388,9 @@ pre: q is not null
 post: no changes to the queue
 */
 int isEmptyQueue(struct Queue* q) {
-    /* FIX ME*/
+    assert(q != NULL);
 
-    return 0;
+    return isEmptyCirList(q->lst);
 }
 
 /*
@@ -388,6 +401,7 @@ post: memory has been freed for q->lst
 post: memory has been freed for the queue
 */
 void freeQueue(struct Queue* q) {
-    /* FIX ME*/
+    assert(q != NULL);
 
+    freeCirList(q->lst);
 }
