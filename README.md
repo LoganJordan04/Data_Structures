@@ -9,3 +9,5 @@
 * **Week 3 - Linked Lists and Big O**
 
 * **Week 4 - Stacks, Queues & Big O Continued**
+
+* **Week 5 - Sorted ADTs & Skip Lists**
