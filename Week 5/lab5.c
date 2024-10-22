@@ -34,9 +34,11 @@ post: head->next is set to NULL
 return: a pointer to the newly allocated list
 */
 struct list *initList() {
-	/*FIX ME*/
+	struct list *lst = malloc(sizeof(struct list));
+    lst->head = malloc(sizeof(struct node));
+    lst->head->next = NULL;
 
-	return 0;
+	return lst;
 }
 
 /*
@@ -48,9 +50,14 @@ pre: list is not null
 post: no changes to the list
 */
 struct node* slideRight(struct list *lst, TYPE val) {
-    /*FIX ME*/
+    assert(lst != NULL);
 
-    return 0;
+    struct node *curr = lst->head;
+    while(curr->next != NULL && val > curr->next->value) {
+        curr = curr->next;
+    }
+
+    return curr;
 }
 
 /*
@@ -62,12 +69,18 @@ post: memory for the new link has been allocated
 post: value of new node is set
 post: pointers are adjusted
 post: a node has been added to the sorted linked list
-HINT: use slideRight()
 */
 void addItem(struct list *lst, TYPE val) {
     printf("Adding value: %d\n", val);
-    /*FIX ME*/
+    assert(lst != NULL);
 
+    struct node *insert = malloc(sizeof(struct node));
+    insert->value = val;
+
+    struct node *prev = slideRight(lst, val);
+
+    insert->next = prev->next;
+    prev->next = insert;
 }
 
 /*
@@ -107,8 +120,13 @@ pre: curr is not null
 post: no changes to the list
 */
 void printList(struct list *lst) {
-	/*FIX ME*/
 
+    struct node *curr = lst->head->next;
+    while(curr != NULL) {
+        printf("%d ", curr->value);
+        curr = curr->next;
+    }
+    printf("\n");
 }
 
 /*
