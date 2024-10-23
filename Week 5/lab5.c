@@ -92,8 +92,15 @@ post: no changes to the list
 return: return 1 if found, otherwise return 0
 */
 int containsItem(struct list *lst, TYPE val) {
-    /*FIX ME*/
+    assert(lst != NULL);
 
+    struct node *curr = lst->head->next;
+    while(curr != NULL) {
+        if(curr->value == val) {
+            return 1;
+        }
+        curr = curr->next;
+    }
     return 0;
 }
 
@@ -109,8 +116,15 @@ post: a node has been removed from the sorted linked list
 */
 void deleteItem(struct list *lst, TYPE val) {
     printf("Delete value: %d\n", val);
-    /*FIX ME*/
+    assert(lst != NULL);
+    assert(containsItem(lst, val));
 
+    struct node *prev = slideRight(lst, val);
+    struct node *del = prev->next;
+
+    prev->next = del->next;
+    free(del);
+    del = 0;
 }
 
 /*
@@ -120,6 +134,7 @@ pre: curr is not null
 post: no changes to the list
 */
 void printList(struct list *lst) {
+    assert(lst != NULL);
 
     struct node *curr = lst->head->next;
     while(curr != NULL) {
@@ -137,8 +152,11 @@ post: the list is printed in reverse order separated by spaces
 post: no changes to the list
 */
 void printListRev(struct node *curr) {
-	/*FIX ME*/
-
+	if(curr == NULL) {
+        return;
+    }
+    printListRev(curr->next);
+    printf("%d ", curr->value);
 }
 
 /*
@@ -149,8 +167,20 @@ post: every node in the list has been freed
 post: lst has been freed
 */
 void freeList(struct list *lst) {
-    /*FIX ME*/
+    assert(lst != NULL);
 
+    struct node *del = lst->head;
+    struct node *curr = del;
+
+    while(curr != NULL) {
+        del = curr;
+        curr = curr->next;
+        free(del);
+        del = 0;
+    }
+    free(lst);
+    lst = 0;
+    printf("List was freed!\n");
 }
 
 int main() {
