@@ -27,3 +27,5 @@ add_executable(main_cirList "Week 4/Assignment 4/main_cirList.c"
 
 #Week 5:
 add_executable(Lab5 "Week 5/lab5.c")
+add_executable(skipList_main "Week 5/Assignment 5/skipList_main.c"
+        "Week 5/Assignment 5/skipList.c")
