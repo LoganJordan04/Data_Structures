@@ -21,7 +21,7 @@ int main() {
         i++;
 	}
 	printf("\n");
-	lst->currMax = 0;/*Need to reset the currMax to 0 after the random level generation*/
+	lst->currMax = 0; /* Need to reset the currMax to 0 after the random level generation */
 
 	printf("------------------- Static Testing -------------------\n");
 	printf("This is a scripted routine of inserts and levels - see the print to determine if it is working correctly\n");
