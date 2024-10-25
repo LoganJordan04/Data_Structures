@@ -30,7 +30,7 @@ int main() {
 	deleteList(lst);
 	lst = 0;
 
-	/*cap = 8;
+	cap = 8;
 	struct skipList *list2;
 	list2 = malloc(sizeof(struct skipList) + sizeof(struct sLink)*cap);
 	initSkipList(list2, cap);
@@ -40,7 +40,7 @@ int main() {
 	test(list2);
 
 	deleteList(list2);
-	list2 = 0;*/
+	list2 = 0;
 
 	return 0;
 }
