@@ -188,13 +188,42 @@ param1: lst - the list
 param2: val - value to remove
 post: pointers are adjusted at each relevant level
 post: link is freed from the list (after pointers are adjusted at each level)
-HINT: start at the top or bottom and search for the value on that level
-HINT: each level of pointers needs to be adjusted as applicable
-HINT: print statements displaying slides and dropping down a level might help to see what is happening
 */
 void removeLink(struct skipList *lst, TYPE val) {
-	/* FIX ME */
+    assert(lst != NULL);
+    assert(searchVal(lst, val));
 
+    struct sLink *curr = lst->sentinel;
+    struct sLink *update[lst->maxLevel]; /* update is an array to store nodes that need pointer updates */
+
+    /* traverse the list and keep track of nodes that need to be updated */
+    int currLevel;
+    for (currLevel = lst->currMax; currLevel >= 0; currLevel--) {
+        while (curr->next[currLevel] != NULL && curr->next[currLevel] != lst->sentinel && val > curr->next[currLevel]->value) {
+            curr = curr->next[currLevel];
+        }
+        update[currLevel] = curr;
+    }
+
+    /* adjusting pointers at level 0 */
+    curr = curr->next[0];
+    if (curr->value == val) {
+        for (currLevel = 0; currLevel <= lst->currMax; currLevel++) {
+            if (update[currLevel]->next[currLevel] != curr) {
+                break;
+            }
+            update[currLevel]->next[currLevel] = curr->next[currLevel];
+        }
+        free(curr->next);
+        free(curr);
+
+        /* adjust the current max level if the highest level is now empty */
+        while (lst->currMax > 0 && lst->sentinel->next[lst->currMax] == lst->sentinel) {
+            lst->currMax--;
+        }
+
+        lst->size--;
+    }
 }
 
 /*
@@ -202,12 +231,18 @@ getSize: return the number of level 0 links in the skip list
 param1: lst - the list
 pre: lst is not null
 post: return the number of level 0 links in the list
-HINT: count the number of links at level 0
 */
 int getSize(struct skipList *lst) {
-	/* FIX ME */
+    assert(lst != NULL);
 
-	return 0;
+    struct sLink *curr = lst->sentinel->next[0];
+    int count = 0;
+
+    while (curr != NULL && curr != lst->sentinel) {
+        count++;
+        curr = curr->next[0];
+    }
+    return count;
 }
 
 /*
@@ -219,6 +254,23 @@ post: sLinks->next are freed
 post: lst is freed
 */
 void deleteList(struct skipList *lst) {
-	/* FIX ME */
+    assert(lst != NULL);
 
+    struct sLink *del = lst->sentinel->next[0];
+    struct sLink *curr = del;
+
+    while (curr != NULL && curr != lst->sentinel) {
+        del = curr;
+        curr = curr->next[0];
+        free(del->next);
+        free(del);
+        del = 0;
+    }
+
+    free(lst->sentinel->next);
+    free(lst->sentinel);
+    free(lst);
+    lst = 0;
+
+    printf("List was freed!\n");
 }
