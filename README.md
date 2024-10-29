@@ -11,3 +11,5 @@
 * **Week 4 - Stacks, Queues & Big O Continued**
 
 * **Week 5 - Sorted ADTs & Skip Lists**
+
+* **Week 6 - Trees**
