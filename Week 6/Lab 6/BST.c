@@ -5,16 +5,16 @@ BST.c: Binary search tree implementation
 
 #include "BST.h"
 
-
 /*
 initBST: initialize BST members
 param1: tree
 pre: tree is not null
 post: nodeCount is 0
 post: root is null
- */
+*/
 void initBST(struct BST *tree) {
     assert(tree != NULL);
+
     tree->root = NULL;
 	tree->nodeCount  = 0;
 }
@@ -26,10 +26,13 @@ pre: curr is not null
 post: return the value of the left most child of curr
 */
 TYPE getLeftMostValue(struct Node *curr) {
-	/*FIX ME*/
 	assert(curr != NULL);
 
-    return 0;
+    while(curr->left != NULL) {
+        curr = curr->left;
+    }
+
+    return curr->val;
 }
 
 /*
@@ -38,17 +41,42 @@ param1: tree - the binary search tree
 param2: val	- the value to be added to the tree
 pre: tree is not null
 post: nodeCount is incremented
-post: memory is dynamically allocated to a  new node
+post: memory is dynamically allocated to a new node
 post: new node has value specified by parameter
 post: left and right pointers of new node are NULL
 post: prev pointer points to new node
 post: tree contains one new node - pointers have been updated
-HINT: prev has three cases: left, right or root
- */
+*/
 void addBST(struct BST *tree, TYPE val) {
     printf("Adding %d \n", val);
-    /* FIX ME */
+    assert(tree != NULL);
 
+    struct Node *newNode = malloc(sizeof(struct Node));
+    newNode->val = val;
+    newNode->left = NULL;
+    newNode->right = NULL;
+
+    struct Node *curr = tree->root;
+    struct Node *prev = curr;
+
+    while(curr != NULL) {
+        prev = curr;
+        if(val < curr->val) {
+            curr = curr->left;
+        } else {
+            curr = curr->right;
+        }
+    }
+
+    if(curr == tree->root) {
+        tree->root = newNode;
+    } else if(val < prev->val) {
+        prev->left = newNode;
+    } else {
+        prev->right = newNode;
+    }
+
+    tree->nodeCount++;
 }
 
 /*
@@ -58,9 +86,21 @@ param2: val	- the value to search for in the tree
 return: return 1 if the tree contains the value, otherwise return 0
 pre: tree is not null
 post: no changes to the BST
- */
+*/
 int containsBST(struct BST *tree, TYPE val) {
-	/* FIX ME */
+    assert(tree != NULL);
+
+    struct Node *curr = tree->root;
+
+    while(curr != NULL) {
+        if (val == curr->val) {
+            return 1;
+        } else if (val < curr->val) {
+            curr = curr->left;
+        } else {
+            curr = curr->right;
+        }
+    }
 
     return 0;
 }
@@ -93,9 +133,8 @@ freeBST: function to delete a BST
 param: tree a binary search tree
 pre: tree not null
 post: tree is freed
-post: all memory for the BST and nodes is freed
-	function calls _freeNodes
- */
+post: all memory for the BST and nodes is freed, function calls _freeNodes
+*/
 void freeBST(struct BST *tree) {
     assert(tree != NULL);
 
@@ -120,7 +159,6 @@ void _freeNodes(struct Node *curr) {
     free(curr);
     curr = 0;
 }
-
 
 /*
 inorderTraversal: inorder traversal of tree left-node-right
