@@ -114,18 +114,60 @@ pre: val is in the tree
 post: nodeCount is decremented
 post: node has been freed
 post: link is removed from the BST - pointers updated
-HINT: There are four different delete cases - leaf, one subtree (L or R) and two subtrees
-HINT: Call getLeftMostValue to find the inorder successor when needed
-HINT: Step 1 - find the node and the prev
-HINT: Step 2 - update pointers - updating pointers is pretty painful
-HINT: This is the most complicated function
 */
 void removeBST(struct BST *tree, TYPE val) {
 	printf("Remove %d \n", val);
 	assert(tree != NULL);
 	assert(containsBST(tree, val));
-	/*FIX ME*/
 
+    struct Node *curr = tree->root;
+    struct Node *prev = NULL;
+
+    while(curr->val != val) {
+        prev = curr;
+        if (val < curr->val) {
+            curr = curr->left;
+        } else {
+            curr = curr->right;
+        }
+    }
+
+    if(curr->left == NULL && curr->right == NULL) {
+        if(prev->left == curr) {
+            prev->left = NULL;
+        } else {
+            prev->right = NULL;
+        }
+    } else if(curr->right == NULL) {
+        if(prev->left == curr) {
+            prev->left = curr->left;
+        } else {
+            prev->right = curr->left;
+        }
+    } else if(curr->left == NULL) {
+        if(prev->right == curr) {
+            prev->right = curr->right;
+        } else {
+            prev->left = curr->right;
+        }
+    } else {
+        curr->val = getLeftMostValue(curr->right);
+        prev = curr;
+        curr = curr->right;
+        while(curr->left != NULL) {
+            prev = curr;
+            curr = curr->left;
+        }
+        if(prev->left == curr) {
+            prev->left = curr->right;
+        } else {
+            prev->right = curr->right;
+        }
+    }
+
+    free(curr);
+    curr = 0;
+    tree->nodeCount--;
 }
 
 /*
@@ -167,6 +209,10 @@ pre: curr is not null
 post: in-order traversal is printed
 */
 void inorderTraversal(struct Node *curr) {
-    /* FIX ME */
-
+    if(curr == NULL) {
+        return;
+    }
+    inorderTraversal(curr->left);
+    printf("%d ", curr->val);
+    inorderTraversal(curr->right);
 }
