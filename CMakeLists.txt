@@ -25,7 +25,11 @@ add_executable(main_deque "Week 4/Lab 4/main_deque.c"
 add_executable(main_cirList "Week 4/Assignment 4/main_cirList.c"
         "Week 4/Assignment 4/cirList.c")
 
-#Week 5:
+# Week 5:
 add_executable(Lab5 "Week 5/lab5.c")
 add_executable(skipList_main "Week 5/Assignment 5/skipList_main.c"
         "Week 5/Assignment 5/skipList.c")
+
+# Week 6:
+add_executable(main_BST "Week 6/Lab 6/main_BST.c"
+        "Week 6/Lab 6/BST.c")
