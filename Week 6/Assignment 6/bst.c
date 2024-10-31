@@ -14,6 +14,7 @@ post: root is null
 */
 void initBSTree(struct BSTree *tree) {
     assert(tree != NULL);
+
 	tree->sz  = 0;
 	tree->root = NULL;
 }
@@ -26,8 +27,11 @@ pre: tree is not null
 post: no changes to the BST
 */
 int isEmptyBSTree(struct BSTree *tree) {
-    /* FIX ME */
+    assert(tree != NULL);
 
+    if (tree->root == NULL) {
+        return 1;
+    }
     return 0;
 }
 
@@ -39,9 +43,9 @@ pre: tree is not null
 post: no changes to the BST
 */
 int sizeBSTree(struct BSTree *tree) {
-    /* FIX ME */
+    assert(tree != NULL);
 
-    return 0;
+    return tree->sz;
 }
 
 /*
@@ -118,14 +122,25 @@ return: curr - the root of a BST with a new leaf added
 post: memory is allocated for a new node
 post: new node contains specified value
 post new node left and right pointers are NULL
-post: a new node is added the the tree
-HINT: when curr is null create a new node, initialize it and return it
-HINT: set the left or right pointers of curr to the result of the recursive calls
+post: a new node is added the tree
 */
 struct Node *_addNode(struct Node *curr, TYPE val) {
-    /* FIX ME */
+    if (curr == NULL) {
+        struct Node *newNode = malloc(sizeof(struct Node));
+        newNode->val = val;
+        newNode->left = NULL;
+        newNode->right = NULL;
 
-    return 0;
+        return newNode;
+    }
+
+    if (val < curr->val) {
+        curr->left = _addNode(curr->left, val);
+    } else {
+        curr->right = _addNode(curr->right, val);
+    }
+
+    return curr;
 }
 
 /*
@@ -144,19 +159,25 @@ int containsBSTree(struct BSTree *tree, TYPE val) {
 }
 
 /*
-_contains: recursive function checks for the value in a binary search tree
+_containsNode: recursive function checks for the value in a binary search tree
 param1: curr - the current node
 param2: val	- the value to be removed from the tree
 ret: return 1 if found, otherwise return 0
 pre: none
 post: no changes to the BST
-HINT: follow the appropriate pointers until you find NULL or the value
 */
 int _containsNode(struct Node *curr, TYPE val) {
-    /* FIX ME */
+    if (curr == NULL) {
+        return 0;
+    }
 
-    return 0;
-
+    if (val == curr->val) {
+        return 1;
+    } else if (val < curr->val) {
+        return _containsNode(curr->left, val);
+    } else {
+        return _containsNode(curr->right, val);
+    }
 }
 
 /*
@@ -184,18 +205,36 @@ param1: val - the value to be removed from the tree
 pre: none
 post: link containing the value is freed
 post: node containing val is removed from the tree and subtrees are updated
-HINT: Use recursion to build a path from the root to the updated subtree - similar to addNode
-HINT: There are 4 cases: the node is a leaf, the node has only one (l or r) subtree, the node has two subtrees
-HINT: Use _leftMostValue() to get the value of the inorder successor when needed
-HINT: This is the most difficult function
- */
+*/
 struct Node *_removeNode(struct Node *curr, TYPE val) {
-	/* FIX ME */
+	if (curr == NULL) {
+	    return NULL;
+	}
 
+    if (val < curr->val) {
+        curr->left = _removeNode(curr->left, val);
+    } else if (val > curr->val) {
+        curr->right = _removeNode(curr->right, val);
+    } else {
+        /* Node with one subtree or is a leaf */
+        if (curr->left == NULL) {
+            struct Node *temp = curr->right;
+            free(curr);
+            return temp;
+        } else if (curr->right == NULL) {
+            struct Node *temp = curr->right;
+            free(curr);
+            return temp;
+        }
 
-	return 0;
+        /* Node has two subtrees. Get the inorder successor */
+        TYPE tempVal = _leftMostValue(curr->right);
+        curr->val = tempVal;
+        curr->right = _removeNode(curr->right, tempVal);
+    }
+
+	return curr;
 }
-
 
 /*
 inorderTraversal: inorder traversal of tree left-node-right
@@ -204,8 +243,12 @@ pre: none
 post: in-order traversal s printed
 */
 void inorderTraversal(struct Node *curr) {
-    /* FIX ME */
-
+    if (curr == NULL) {
+        return;
+    }
+    inorderTraversal(curr->left);
+    printf("%.1f ", curr->val);
+    inorderTraversal(curr->right);
 }
 
 /*
@@ -215,8 +258,12 @@ pre: none
 post: pre-order traversal s printed
 */
 void preorderTraversal(struct Node *curr) {
-    /* FIX ME */
-
+    if (curr == NULL) {
+        return;
+    }
+    printf("%.1f ", curr->val);
+    preorderTraversal(curr->left);
+    preorderTraversal(curr->right);
 }
 
 /*
@@ -226,6 +273,10 @@ pre: none
 post: post-order traversal s printed
 */
 void postorderTraversal(struct Node *curr) {
-    /* FIX ME */
-
+    if (curr == NULL) {
+        return;
+    }
+    postorderTraversal(curr->left);
+    postorderTraversal(curr->right);
+    printf("%.1f ", curr->val);
 }
