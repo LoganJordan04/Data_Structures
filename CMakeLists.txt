@@ -33,3 +33,5 @@ add_executable(skipList_main "Week 5/Assignment 5/skipList_main.c"
 # Week 6:
 add_executable(main_BST "Week 6/Lab 6/main_BST.c"
         "Week 6/Lab 6/BST.c")
+add_executable(main_bst "Week 6/Assignment 6/main_bst.c"
+        "Week 6/Assignment 6/bst.c")
