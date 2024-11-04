@@ -13,3 +13,5 @@
 * **Week 5 - Sorted ADTs & Skip Lists**
 
 * **Week 6 - Trees**
+
+* *Week 7 - Midterm*
