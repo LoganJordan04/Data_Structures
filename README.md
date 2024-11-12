@@ -15,3 +15,5 @@
 * **Week 6 - Trees**
 
 * *Week 7 - Midterm*
+
+* **Week 8 - Heaps & Priority Queues***
