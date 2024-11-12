@@ -35,3 +35,6 @@ add_executable(main_BST "Week 6/Lab 6/main_BST.c"
         "Week 6/Lab 6/BST.c")
 add_executable(main_bst "Week 6/Assignment 6/main_bst.c"
         "Week 6/Assignment 6/bst.c")
+
+# Week 8:
+add_executable(Lab8 "Week 8/lab8.c")
