@@ -1,6 +1,6 @@
 /*
 Logan Jordan - 11/12/24
-lab8.c: Heap-based priority queue implementation and testing
+lab8.c: Max Heap-based priority queue implementation using a dynamic array and testing
 */
 
 #include <assert.h>
@@ -20,7 +20,8 @@ struct Heap {
 };
 
 void percolateUp(struct Heap *h, int pos);
-void percolateDown(struct Heap *h);
+void percolateDown(struct Heap *h, int pos);
+
 
 /*
 initDynArr: Initialize (including allocation of data array) dynamic array.
@@ -68,7 +69,7 @@ post: val is in the last utilized position in the array
 */
 void addDynArr(struct DynArr *d, TYPE val) {
     assert(d != NULL);
-/* If full, then re-size */
+    /* If full, then re-size */
     if(d->size >= d->capacity) {
         d->capacity *= 2;
         d->data = realloc(d->data, d->capacity);
@@ -151,13 +152,12 @@ pre: pos < size
 post: the element at pos is removed
 post: the elements past pos are shifted back one
 */
-
 void removeAtDynArr(struct DynArr *d, int pos) {
     int i;
     assert(d != NULL);
     assert(pos < d->size);
     assert(pos >= 0);
-/* Shift all elements up */
+    /* Shift all elements up */
     for(i = pos; i < d->size-1; i++){
         d->data[i] = d->data[i+1];
     }
@@ -180,9 +180,7 @@ void printDynArr(struct DynArr *d) {
     printf("\n");
 }
 
-/*
------------------- Heap-based priority queue implementation ------------------
-*/
+/* ------------------ Heap-based priority queue implementation ------------------ */
 
 /*
 initHeap: initialize max-heap
@@ -193,7 +191,7 @@ pre: cap > 0
 post: memory is allocated to the dynamic array - use createDynArr()
 */
 void initHeap(struct Heap *h, int cap) {
-    assert(h != 0);
+    assert(h != NULL);
     assert(cap > 0);
     h->d = createDynArr(cap);
 }
@@ -206,11 +204,13 @@ pre: heap is not null
 post: node is added to the heap
 post: heap properties are maintained
 post: heap size is incremented
-call percolateUp
 */
 void pushHeap(struct Heap *h, TYPE val) {
     printf("adding %d\n", val);
-/* FIXME */
+    assert(h != NULL);
+
+    addDynArr(h->d, val);
+    percolateUp(h, h->d->size-1);
 }
 
 /*
@@ -218,13 +218,24 @@ percolateUp: swap a value up into place in a max-heap
 param1: heap - pointer to the max-heap
 param2: pos - the index position of the node to be swapped up
 pre: heap is not null
-pre: pos > 0
+pre: pos >= 0
 pre: pos < heap size
 post: heap properties are maintained
-called by pushHeap
 */
 void percolateUp(struct Heap *h, int pos) {
-/* FIXME */
+    assert(h != NULL);
+    assert(pos >= 0 && pos < h->d->size);
+
+    int parent = (pos-1)/2;
+    while(pos > 0) {
+        if(h->d->data[pos] > h->d->data[parent]) {
+            swapDynArr(h->d, pos, parent);
+            pos = parent;
+            parent = (pos-1)/2;
+        } else {
+            return;
+        }
+    }
 }
 
 /*
@@ -234,42 +245,72 @@ pre: heap is not null
 pre: heap is not empty
 post: heap properties are maintained
 post: heap size is decremented
-call percolateDown
 */
 void popHeap(struct Heap *h) {
     printf("popping %d\n", getValDynArr(h->d, 0));
-/* FIXME */
+    assert(h != NULL);
+    assert(h->d->size > 0);
+
+    swapDynArr(h->d, 0, h->d->size-1);
+    removeAtDynArr(h->d, h->d->size-1);
+    percolateDown(h, 0);
 }
 
 /*
 percolateDown: swap the root down into place in a max-heap
 param1: heap - pointer to the max-heap
 pre: heap is not null
-pre: pos > 0
+pre: pos >= 0
 pre: pos < heap size
 post: heap properties are maintained
-called by popHeap
 */
-void percolateDown(struct Heap *h) {
-/* FIXME */
+void percolateDown(struct Heap *h, int pos) {
+    assert(h != NULL);
+    assert(pos >= 0 && pos < h->d->size);
+
+    int lChild = 0;
+    int rChild = 0;
+    int larger = 0;
+
+    while((pos*2)-1 < h->d->size) {
+        lChild = (pos*2)+1;
+        rChild = (pos*2)+2;
+
+        /* figure out where the larger child is */
+        if(rChild >= h->d->size) {
+            larger = lChild;
+        } else if(h->d->data[rChild] > h->d->data[lChild]) {
+            larger = rChild;
+        } else {
+            larger = lChild;
+        }
+
+        if(h->d->data[pos] < h->d->data[larger]) {
+            swapDynArr(h->d, pos, larger);
+            pos = larger;
+        } else {
+            return;
+        }
+    }
 }
 
 /*
 getMinHeap: Get the top value from first node in the max-heap
 param: heap - pointer to the heap
-return: value of first node's value
 pre: heap is not empty
+return: value of first node's value
 */
 TYPE getHeapMax(struct Heap *h) {
-/* FIXME */
-    return 0;
+    assert(h->d->size > 0);
+
+    return h->d->data[0];
 }
 
 /*
 freeHeap: Free the memory for the heap and the underlying dynArr
 param: heap - pointer to the heap
-return: none
-pre: memory has been freed for dynArr, dynArr->data and heap
+pre: none
+return: memory has been freed for dynArr, dynArr->data and heap
 */
 void freeHeap(struct Heap *h) {
     free(h->d->data);
@@ -284,6 +325,7 @@ void freeHeap(struct Heap *h) {
 int main() {
     struct Heap *heap = malloc(sizeof(struct Heap));
     initHeap(heap, 16);
+
     printf("-------------TESTING PUSH-------------\n");
     pushHeap(heap, 7);
     pushHeap(heap, 12);
@@ -294,6 +336,7 @@ int main() {
     pushHeap(heap, 6);
     printf("Should print: 12 7 11 5 4 3 6\n");
     printDynArr(heap->d);
+
     printf("-------------TESTING POP-------------\n");
     popHeap(heap);
     printf("Should print: 11 7 6 5 4 3 \n");
@@ -302,6 +345,7 @@ int main() {
     printf("Should print: 7 5 6 3 4 \n");
     printDynArr(heap->d);
     freeHeap(heap);
+
     heap = 0;
     return 0;
 }
