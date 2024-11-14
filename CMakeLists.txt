@@ -12,7 +12,7 @@ add_executable(Assignment1 "Week 1/Assignment1.c"
 add_executable(testDynArr "Week 2/Lab 2/testDynArr.c"
         "Week 2/Lab 2/dynArr.c")
 add_executable(testDynArray "Week 2/Assignment 2/testDynArray.c"
-        "Week 2/Assignment 2/dynamicArray.c")
+        "Week 2/Assignment 2/dynamicArrayW2.c")
 
 # Week 3:
 add_executable(Lab3 "Week 3/Lab3.c")
@@ -38,3 +38,5 @@ add_executable(main_bst "Week 6/Assignment 6/main_bst.c"
 
 # Week 8:
 add_executable(Lab8 "Week 8/lab8.c")
+add_executable(main_heap "Week 8/Assignment 8/main_heap.c"
+        "Week 8/Assignment 8/dynamicArray.c")
