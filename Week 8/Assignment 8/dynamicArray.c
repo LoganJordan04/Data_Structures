@@ -1,3 +1,8 @@
+/*
+Logan Jordan - 11/13/24
+dynamicArray.c: Min Heap-based priority queue implementation using a dynamic array
+*/
+
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -5,35 +10,35 @@
 #include "dynamicArray.h"
 
 /*
-    compare: compare two tasks by priority
-    param: left - first task
-    param: right - second task
-    pre: left is not NULL
-    pre: right is not NULL
-    post: none
-	return: return scheme is below
-        -1 if priority of left < priority of right
-        1 if priority of left > priority of right
-        0 if priority of left = priority of right
-    HINT - left and right are structs and have members
-    HINT - you are comparing the priority of the tasks
-    HINT - left and right are not pointers, you don't need ->
+compare: compare two tasks by priority
+param: left - first task
+param: right - second task
+pre: left is not NULL
+pre: right is not NULL
+post: none
+return: return scheme is below
+    -1 if priority of left < priority of right
+    1 if priority of left > priority of right
+    0 if priority of left = priority of right
+HINT - left and right are structs and have members
+HINT - you are comparing the priority of the tasks
+HINT - left and right are not pointers, you don't need ->
 */
 int compare(TYPE left, TYPE right) {
-	/* FIX ME */
+	/* FIXME */
 
     return 0;
 }
 
 /*
-	initDynArr: Initialize (including allocation of data array) dynamic array.
-	param1: d - pointer to the dynamic array
-	param2 : capacity - capacity of the dynamic array
-	pre: d is not null
-	pre: capacity > 0
-	post: memory is dynamically allocated for the data array
-	post: size is set to 0
-	post: capacity is set
+initDynArr: Initialize (including allocation of data array) dynamic array.
+param1: d - pointer to the dynamic array
+param2 : capacity - capacity of the dynamic array
+pre: d is not null
+pre: capacity > 0
+post: memory is dynamically allocated for the data array
+post: size is set to 0
+post: capacity is set
 */
 void initDynArr(struct DynArr *d, int capacity) {
 	assert(capacity > 0);
@@ -44,11 +49,11 @@ void initDynArr(struct DynArr *d, int capacity) {
 }
 
 /*
-	createDynArr: Allocate and initialize dynamic array.
-	param: cap desired capacity for the dynamic array
-	ret: a pointer to an empty dynArr of cap capacity
-	pre: cap is greater than 0
-	post: memory has been allocated to the dynamic array
+createDynArr: Allocate and initialize dynamic array.
+param: cap desired capacity for the dynamic array
+ret: a pointer to an empty dynArr of cap capacity
+pre: cap is greater than 0
+post: memory has been allocated to the dynamic array
 
 */
 struct DynArr *createDynArr(int cap) {
@@ -63,10 +68,10 @@ struct DynArr *createDynArr(int cap) {
 }
 
 /*
-	freeDynArr: Deallocate data array in dynamic array.
-	param: d - pointer to the dynamic array
-	pre: d is not NULL
-	post: the memory used by d->data is freed
+freeDynArr: Deallocate data array in dynamic array.
+param: d - pointer to the dynamic array
+pre: d is not NULL
+post: the memory used by d->data is freed
 */
 void freeDynArr(struct DynArr *d) {
 	if(d->data != NULL) {
@@ -76,11 +81,11 @@ void freeDynArr(struct DynArr *d) {
 }
 
 /*
-	deleteDynArr: Deallocate data array and the dynamic array.
-	param: d - pointer to the dynamic array
-	pre: d is not NULL
-	post: the memory used by d is freed
-	freeDynArr is called to free the data array
+deleteDynArr: Deallocate data array and the dynamic array.
+param: d - pointer to the dynamic array
+pre: d is not NULL
+post: the memory used by d is freed
+freeDynArr is called to free the data array
 */
 void deleteDynArr(struct DynArr *d) {
 	assert(d != NULL);
@@ -90,11 +95,11 @@ void deleteDynArr(struct DynArr *d) {
 }
 
 /*
-	sizeDynArr: Get the size of the dynamic array
-	param: d - pointer to the dynamic array
-    ret: the size of the dynamic array
-	pre: d is not null
-	post: none
+sizeDynArr: Get the size of the dynamic array
+param: d - pointer to the dynamic array
+ret: the size of the dynamic array
+pre: d is not null
+post: none
 */
 int sizeDynArr(struct DynArr *d) {
 	assert(d != NULL);
@@ -102,15 +107,15 @@ int sizeDynArr(struct DynArr *d) {
 }
 
 /*
-	getDynArr: Get an element from the dynamic array from a specified position
-	param1: d - pointer to the dynamic array
-	param2: pos - integer index to get the element from
-    return: value stored at index position, pos
-	pre: d is not null
-	pre: d is not empty
-	pre: pos < size
-	pre: pos >= 0
-	post: no changes to the dynamic array
+getDynArr: Get an element from the dynamic array from a specified position
+param1: d - pointer to the dynamic array
+param2: pos - integer index to get the element from
+return: value stored at index position, pos
+pre: d is not null
+pre: d is not empty
+pre: pos < size
+pre: pos >= 0
+post: no changes to the dynamic array
 */
 TYPE getDynArr(struct DynArr *d, int pos) {
 	assert(d != NULL);
@@ -121,29 +126,28 @@ TYPE getDynArr(struct DynArr *d, int pos) {
 }
 
 /*
-    resizeDynArr: resizes the old array to the size of capacity
-    param1: d - pointer to the dynamic array
-	param2: newCap - the new desired capacity
-	pre: d is not null
-	pre: newCap > d->size
-	post: old d->data has been freed
-	post: d->data points to a new, larger chunk of memory
-	post: old data has been copied into new data
+resizeDynArr: resizes the old array to the size of capacity
+param1: d - pointer to the dynamic array
+param2: newCap - the new desired capacity
+pre: d is not null
+pre: newCap > d->size
+post: old d->data has been freed
+post: d->data points to a new, larger chunk of memory
+post: old data has been copied into new data
 */
 void resizeDynArr(struct DynArr *d, int newCap) {
-    /* FIX ME */
-
+    /* FIXME */
 
 }
 
 /*
-	addDynArr: Adds an element to the end of the dynamic array
-	param: d - pointer to the dynamic array
-	param: val - the value to add to the end of the dynamic array
-	pre: d is not NULL
-	post: size increases by 1
-	post: if reached capacity, capacity is doubled
-	post: val is in the last utilized position in the array
+addDynArr: Adds an element to the end of the dynamic array
+param: d - pointer to the dynamic array
+param: val - the value to add to the end of the dynamic array
+pre: d is not NULL
+post: size increases by 1
+post: if reached capacity, capacity is doubled
+post: val is in the last utilized position in the array
 */
 void addDynArr(struct DynArr *d, TYPE val) {
 	assert(d != NULL);
@@ -156,14 +160,14 @@ void addDynArr(struct DynArr *d, TYPE val) {
 }
 
 /*
-	putDynArr: Put an item into the dynamic array at the specified location, overwriting the element that was there
-	param1: d - pointer to the dynamic array
-	param2: pos - the index to put the value into
-	param3: val	- the value to insert
-	pre: d is not null
-	pre: pos >= 0 and pos
-	pre: pos < capacity
-	post: index (pos) contains new value (val)
+putDynArr: Put an item into the dynamic array at the specified location, overwriting the element that was there
+param1: d - pointer to the dynamic array
+param2: pos - the index to put the value into
+param3: val	- the value to insert
+pre: d is not null
+pre: pos >= 0 and pos
+pre: pos < capacity
+post: index (pos) contains new value (val)
 */
 void putDynArr(struct DynArr *d, int pos, TYPE val) {
 	assert(d != NULL);
@@ -171,21 +175,20 @@ void putDynArr(struct DynArr *d, int pos, TYPE val) {
 	assert(pos < d->capacity);
 
 	d->data[pos] = val;
-
 }
 
 /*
-	swapDynArr: Swap two specified elements in the dynamic array
-	param1: d - pointer to the dynamic array
-	param2: i - one of the elements to be swapped
-	param3: j - one of the elements to be swapped
-	pre: d is not null
-	pre: d is not empty
-	pre: i >= to 0
-	pre: j >= to 0
-	pre: i < size of the dynamic array
-	pre: j < size of the dynamic array
-	post: index i now holds the value at j and index j now holds the value at i
+swapDynArr: Swap two specified elements in the dynamic array
+param1: d - pointer to the dynamic array
+param2: i - one of the elements to be swapped
+param3: j - one of the elements to be swapped
+pre: d is not null
+pre: d is not empty
+pre: i >= to 0
+pre: j >= to 0
+pre: i < size of the dynamic array
+pre: j < size of the dynamic array
+post: index i now holds the value at j and index j now holds the value at i
 */
 void swapDynArr(struct DynArr *d, int i, int  j) {
 	TYPE  temp;
@@ -201,15 +204,15 @@ void swapDynArr(struct DynArr *d, int i, int  j) {
 }
 
 /*
-	removeAtDynArr: Remove the element at the specified location from the array, shifts other elements back one to fill the gap
-	param1: d - pointer to the dynamic array
-	param2: pos - location of element to remove
-	pre: d is not null
-	pre: d is not empty
-    pre: pos >= 0
-	pre: pos < size
-	post: the element at pos is removed
-	post: the elements past pos are shifted back one
+removeAtDynArr: Remove the element at the specified location from the array, shifts other elements back one to fill the gap
+param1: d - pointer to the dynamic array
+param2: pos - location of element to remove
+pre: d is not null
+pre: d is not empty
+pre: pos >= 0
+pre: pos < size
+post: the element at pos is removed
+post: the elements past pos are shifted back one
 */
 void removeAtDynArr(struct DynArr *d, int idx) {
 	int i;
@@ -225,11 +228,11 @@ void removeAtDynArr(struct DynArr *d, int idx) {
 }
 
 /*
-	isEmptyDynArr: returns boolean based on whether the array is empty
-	param: d - pointer to the dynamic array
-	pre: d is not null
-	post: none
-	ret: 1 if empty, otherwise return 0
+isEmptyDynArr: returns boolean based on whether the array is empty
+param: d - pointer to the dynamic array
+pre: d is not null
+post: none
+ret: 1 if empty, otherwise return 0
 */
 int isEmptyDynArr(struct DynArr *d) {
 	assert(d != NULL);
@@ -238,147 +241,121 @@ int isEmptyDynArr(struct DynArr *d) {
 		return 1;
 	}
 	return 0;
-
 }
 
+/* ------------------ Min-heap-based priority queue implementation ------------------ */
 
 /*
-	Min-heap-based priority queue implementation ----------------------------------- Starts here --------------------------------------
-*/
-
-
-/*
-	addHeap: Add a node to the min-heap in last position
-	param1: heap - pointer to the heap
-	param2: val - task to be added to the heap
-	pre: heap is not null
-	post: node is added to the heap
-    post: heap properties are maintained
-	HINT: dereference the pointer as you pass it to the dynamic array function
-	HINT: call siftUp() to get the node in place
-	HINT: _siftUp is where most of the work happens
+addHeap: Add a node to the min-heap in last position
+param1: heap - pointer to the heap
+param2: val - task to be added to the heap
+pre: heap is not null
+post: node is added to the heap
+post: heap properties are maintained
+HINT: dereference the pointer as you pass it to the dynamic array function
+HINT: call siftUp() to get the node in place
+HINT: _siftUp is where most of the work happens
 */
 void addHeap(struct DynArr *heap, TYPE *val) {
 	/* FIXME */
 
-
 }
 
-
 /*
-	_siftUp: Compare node to it's parent and swap it up the min-heap until it is in place
-	param1: heap - pointer to the heap
-	param2: index - the index of the child node (to be swapped)
-	pre: heap is not null
-	pre: index < heap->size
-	pre: index >= 0
-	post: heap properties are maintained
-	HINT: This is what the compare function is for
+_siftUp: Compare node to it's parent and swap it up the min-heap until it is in place
+param1: heap - pointer to the heap
+param2: index - the index of the child node (to be swapped)
+pre: heap is not null
+pre: index < heap->size
+pre: index >= 0
+post: heap properties are maintained
+HINT: This is what the compare function is for
 */
 void _siftUp(struct DynArr *heap, int index) {
 	/* FIXME */
 
-
 }
 
-
 /*
-	getMinHeap: Get the first node in the min-heap (root)
-	param: heap - pointer to the heap
-	return: value of first node in the min-heap
-	pre: heap is not empty
-	post: no changes to the heap
-
+getMinHeap: Get the first node in the min-heap (root)
+param: heap - pointer to the heap
+return: value of first node in the min-heap
+pre: heap is not empty
+post: no changes to the heap
 */
 TYPE getMinHeap(struct DynArr *heap) {
 	/* FIXME */
 
 	return heap->data[0];
-
 }
 
-
-
-
-
 /*
-	removeMinHeap: Remove the first node from the min-heap -  call siftDown() to get the node in place
-	param: heap - pointer to the heap
-	pre: heap is not empty
-	post: the minimum node is removed from the min-heap
-	post: the last node is copied into the first position in the dynamic array
-	post: dynamic array size has been decremented
-	HINT: use _siftDown to sift elements down
-    HINT: _siftDown is where most of the work happens
+removeMinHeap: Remove the first node from the min-heap -  call siftDown() to get the node in place
+param: heap - pointer to the heap
+pre: heap is not empty
+post: the minimum node is removed from the min-heap
+post: the last node is copied into the first position in the dynamic array
+post: dynamic array size has been decremented
+HINT: use _siftDown to sift elements down
+HINT: _siftDown is where most of the work happens
 */
 void removeMinHeap(struct DynArr *heap) {
 	/* FIXME */
 
-
 }
 
-
 /*
-	_smallerIndexHeap: Get the index of the smaller node between two nodes in a min-heap - this is an auxiliary function
-	param1: heap - pointer to the heap
-	param2: i - index of one node
-	param3: j - index of the other node
-	return: the index of the smaller node
-	pre: i < size
-	pre: j < size
-	pre: j <= 0
-	pre: j <= 0
-	post: no changes to the min-heap
-	used by siftDown()
-	HINT: This is what the compare function is for
+_smallerIndexHeap: Get the index of the smaller node between two nodes in a min-heap - this is an auxiliary function
+param1: heap - pointer to the heap
+param2: i - index of one node
+param3: j - index of the other node
+return: the index of the smaller node
+pre: i < size
+pre: j < size
+pre: j <= 0
+pre: j <= 0
+post: no changes to the min-heap
+used by siftDown()
+HINT: This is what the compare function is for
 */
 int _smallerIndexHeap(struct DynArr *heap, int i, int j) {
 	/* FIXME */
 
     return 0;
-
 }
 
-
-
 /*
-	_siftDown: Compare index to it's children and swap with the smaller element
-	param1: heap - pointer to the heap
-	param2: index - the index of the parent node to be potentially swapped
-	pre: heap is not null
-	post: heap properties have been preserved - this function gets a heap where the root is (probably) out of order
-    HINT: use the _smallerIndexHeap to find the smaller child node of the current node
-	HINT: - if there is only an lChild, then that is a specific case
-	HINT: - This is the most difficult function
+_siftDown: Compare index to its children and swap with the smaller element
+param1: heap - pointer to the heap
+param2: index - the index of the parent node to be potentially swapped
+pre: heap is not null
+post: heap properties have been preserved - this function gets a heap where the root is (probably) out of order
+HINT: use the _smallerIndexHeap to find the smaller child node of the current node
+HINT: - if there is only an lChild, then that is a specific case
+HINT: - This is the most difficult function
 */
 void _siftDown(struct DynArr *heap, int index) {
 	/* FIXME */
 
-
 }
 
-
 /*
-	sortHeapHeap: Print the heap in sorted order. Each node is removed from the heap - print the information about each task as each is removed
-	param: heap - the heap full of tasks to print
-	pre: heap is not empty
-	post: every node is removed from the min-heap
-	format: "Priority: XX - Description: Ipsum Lorem" - use the printTask function
-	HINT: Use getMinHeap to get each task
-    HINT: Use printTask to print each task - Written in main
-	HINT: Use removeMinHeap to remove each task
+sortHeapHeap: Print the heap in sorted order. Each node is removed from the heap - print the information about each task as each is removed
+param: heap - the heap full of tasks to print
+pre: heap is not empty
+post: every node is removed from the min-heap
+format: "Priority: XX - Description: Ipsum Lorem" - use the printTask function
+HINT: Use getMinHeap to get each task
+HINT: Use printTask to print each task - Written in main
+HINT: Use removeMinHeap to remove each task
 */
 void sortHeap(struct DynArr *heap) {
 	/* FIXME */
 
-
-
 }
 
 
-
-
-/*///////////////  ************PART 2****************  ///////////////*/
+/* ------------------ PART 2 ------------------ */
 
 /*
 #1: What is the big-O complexity of getMinHeap?
@@ -399,6 +376,4 @@ void sortHeap(struct DynArr *heap) {
 #6: How many potential swaps will happen in the worst-case when inserting into a heap with 127 nodes?
 
 
-
 */
-
