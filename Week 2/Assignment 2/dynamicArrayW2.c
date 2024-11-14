@@ -6,7 +6,7 @@ dynamicArray.c: Dynamic Array implementation
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
-#include "dynamicArray.h"
+#include "dynamicArrayW2.h"
 
 /*
 DynArr - Dynamic array struct
