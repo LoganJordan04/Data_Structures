@@ -5,7 +5,7 @@ testDynArray.c: This file is used for testing the dynamicArray.c file
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "dynamicArray.h"
+#include "dynamicArrayW2.h"
 
 void assertTrue(int predicate, char *message) {
 	printf("%s: ", message);
