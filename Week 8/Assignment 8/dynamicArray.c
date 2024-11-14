@@ -20,13 +20,16 @@ return: return scheme is below
     -1 if priority of left < priority of right
     1 if priority of left > priority of right
     0 if priority of left = priority of right
-HINT - left and right are structs and have members
-HINT - you are comparing the priority of the tasks
-HINT - left and right are not pointers, you don't need ->
 */
 int compare(TYPE left, TYPE right) {
-	/* FIXME */
+    assert(&left != NULL);
+    assert(&right != NULL);
 
+    if(left.priority < right.priority) {
+        return -1;
+    } else if(left.priority > right.priority) {
+        return 1;
+    }
     return 0;
 }
 
@@ -136,8 +139,13 @@ post: d->data points to a new, larger chunk of memory
 post: old data has been copied into new data
 */
 void resizeDynArr(struct DynArr *d, int newCap) {
-    /* FIXME */
+    assert(d != NULL);
+    assert(newCap > d->size);
 
+    TYPE *newData = realloc(d->data, sizeof(TYPE) * newCap);
+
+    d->data = newData;
+    d->capacity = newCap;
 }
 
 /*
@@ -191,7 +199,7 @@ pre: j < size of the dynamic array
 post: index i now holds the value at j and index j now holds the value at i
 */
 void swapDynArr(struct DynArr *d, int i, int  j) {
-	TYPE  temp;
+	TYPE temp;
 	assert(d != NULL);
 	assert(i <= d->size);
 	assert(j <= d->size);
