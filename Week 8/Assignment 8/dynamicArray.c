@@ -260,13 +260,12 @@ param2: val - task to be added to the heap
 pre: heap is not null
 post: node is added to the heap
 post: heap properties are maintained
-HINT: dereference the pointer as you pass it to the dynamic array function
-HINT: call siftUp() to get the node in place
-HINT: _siftUp is where most of the work happens
 */
 void addHeap(struct DynArr *heap, TYPE *val) {
-	/* FIXME */
+	assert(heap != NULL);
 
+    addDynArr(heap, *val);
+    _siftUp(heap, heap->size-1);
 }
 
 /*
@@ -277,11 +276,21 @@ pre: heap is not null
 pre: index < heap->size
 pre: index >= 0
 post: heap properties are maintained
-HINT: This is what the compare function is for
 */
 void _siftUp(struct DynArr *heap, int index) {
-	/* FIXME */
+    assert(heap != NULL);
+    assert(index < heap->size && index >= 0);
 
+    int parent = (index-1)/2;
+    while(index > 0) {
+        if (compare(heap->data[index], heap->data[parent]) < 0) {
+            swapDynArr(heap, index, parent);
+            index = parent;
+            parent = (index-1)/2;
+        } else {
+            return;
+        }
+    }
 }
 
 /*
@@ -292,7 +301,7 @@ pre: heap is not empty
 post: no changes to the heap
 */
 TYPE getMinHeap(struct DynArr *heap) {
-	/* FIXME */
+	assert(!isEmptyDynArr(heap));
 
 	return heap->data[0];
 }
@@ -304,12 +313,13 @@ pre: heap is not empty
 post: the minimum node is removed from the min-heap
 post: the last node is copied into the first position in the dynamic array
 post: dynamic array size has been decremented
-HINT: use _siftDown to sift elements down
-HINT: _siftDown is where most of the work happens
 */
 void removeMinHeap(struct DynArr *heap) {
-	/* FIXME */
+    assert(!isEmptyDynArr(heap));
 
+    swapDynArr(heap, 0, heap->size-1);
+    removeAtDynArr(heap, heap->size-1);
+    _siftDown(heap, 0);
 }
 
 /*
@@ -320,16 +330,20 @@ param3: j - index of the other node
 return: the index of the smaller node
 pre: i < size
 pre: j < size
-pre: j <= 0
-pre: j <= 0
+pre: j >= 0
+pre: j >= 0
 post: no changes to the min-heap
-used by siftDown()
-HINT: This is what the compare function is for
+used by _siftDown()
 */
 int _smallerIndexHeap(struct DynArr *heap, int i, int j) {
-	/* FIXME */
+	assert(i < heap->size && i >= 0);
+	assert(j < heap->size && j >= 0);
 
-    return 0;
+    if(compare(heap->data[i], heap->data[j]) < 0) {
+        return i;
+    } else {
+        return j;
+    }
 }
 
 /*
@@ -338,28 +352,47 @@ param1: heap - pointer to the heap
 param2: index - the index of the parent node to be potentially swapped
 pre: heap is not null
 post: heap properties have been preserved - this function gets a heap where the root is (probably) out of order
-HINT: use the _smallerIndexHeap to find the smaller child node of the current node
-HINT: - if there is only an lChild, then that is a specific case
-HINT: - This is the most difficult function
 */
 void _siftDown(struct DynArr *heap, int index) {
-	/* FIXME */
+	assert(heap != NULL);
 
+    int lChild = 0;
+    int rChild = 0;
+    int smaller = 0;
+
+    while((index*2)+1 < heap->size) {
+        lChild = (index*2)+1;
+        rChild = (index*2)+2;
+
+        if (rChild < heap->size) {
+            smaller = _smallerIndexHeap(heap, lChild, rChild);
+        } else {
+            smaller = lChild;
+        }
+
+        if (compare(heap->data[index], heap->data[smaller]) > 0) {
+            swapDynArr(heap, index, smaller);
+            index = smaller;
+        } else {
+            return;
+        }
+    }
 }
 
 /*
-sortHeapHeap: Print the heap in sorted order. Each node is removed from the heap - print the information about each task as each is removed
+sortHeap: Print the heap in sorted order. Each node is removed from the heap - print the information about each task as each is removed
 param: heap - the heap full of tasks to print
 pre: heap is not empty
 post: every node is removed from the min-heap
 format: "Priority: XX - Description: Ipsum Lorem" - use the printTask function
-HINT: Use getMinHeap to get each task
-HINT: Use printTask to print each task - Written in main
-HINT: Use removeMinHeap to remove each task
 */
 void sortHeap(struct DynArr *heap) {
-	/* FIXME */
+    assert(!isEmptyDynArr(heap));
 
+    while (!isEmptyDynArr(heap)) {
+        printTask(getMinHeap(heap));
+        removeMinHeap(heap);
+    }
 }
 
 
