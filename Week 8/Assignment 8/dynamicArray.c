@@ -400,21 +400,21 @@ void sortHeap(struct DynArr *heap) {
 
 /*
 #1: What is the big-O complexity of getMinHeap?
-
+    O(1)
 
 #2: What is the big-O complexity of addHeap?
-
+    O(log n)
 
 #3: Describe the worst-case performance of addHeap?
-
+    When the element to be added needs to be sifted up from the bottom to the top of the heap, which
+    requires O(log n) comparisons and swaps.
 
 #4: What is the big-O complexity of removeMinHeap?
+    O(log n)
 
-
-#5: What is the big-O complexity of processHeap?
-
+#5: What is the big-O complexity of sortHeap?
+    O(n log n)
 
 #6: How many potential swaps will happen in the worst-case when inserting into a heap with 127 nodes?
-
-
+    log(127), or about 7 swaps.
 */
