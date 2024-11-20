@@ -17,3 +17,5 @@
 * *Week 7 - Midterm*
 
 * **Week 8 - Heaps & Priority Queues**
+
+* **Week 9 - Graphs**
