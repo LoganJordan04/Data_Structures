@@ -19,3 +19,5 @@
 * **Week 8 - Heaps & Priority Queues**
 
 * **Week 9 - Graphs**
+
+* **Week 10 - Hash Tables**
