@@ -40,3 +40,6 @@ add_executable(main_bst "Week 6/Assignment 6/main_bst.c"
 add_executable(Lab8 "Week 8/lab8.c")
 add_executable(main_heap "Week 8/Assignment 8/main_heap.c"
         "Week 8/Assignment 8/dynamicArray.c")
+
+# Week 10:
+add_executable(hashLab "Week 10/hashLab.c")
