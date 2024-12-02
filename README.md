@@ -21,3 +21,5 @@
 * **Week 9 - Graphs**
 
 * **Week 10 - Hash Tables**
+
+* *Week 11 - Final*
