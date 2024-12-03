@@ -43,3 +43,5 @@ add_executable(main_heap "Week 8/Assignment 8/main_heap.c"
 
 # Week 10:
 add_executable(hashLab "Week 10/hashLab.c")
+add_executable(hash_main "Week 10/Assignment 10/hash_main.c"
+        "Week 10/Assignment 10/hash.c")
