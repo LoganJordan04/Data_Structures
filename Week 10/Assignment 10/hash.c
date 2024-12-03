@@ -11,13 +11,16 @@ param1: str - the string to hash
 pre: str is not NULL
 return: the sum of the ASCII values of the string is returned
 post: none
-HINT - you can treat chars like ints
-HINT - return the absolute value - negative hashes don't work
 */
 int hashFunction1(char *str) {
-	/* FIX ME */
+	assert(str != NULL);
 
-	return 0;
+    int sum = 0;
+    int i;
+    for(i = 0; str[i] != '\0'; i++) {
+        sum += str[i];
+    }
+	return abs(sum);
 }
 
 /*
@@ -29,9 +32,10 @@ post: none
 */
 int hashFunction2(char *str) {
 	assert(str != NULL);
+
 	int i;
 	int h = 0;
-	for (i = 0; str[i] != '\0'; i++) {
+	for(i = 0; str[i] != '\0'; i++) {
 		h += (i+1) * str[i];
 	}
 	return abs(h);
@@ -91,7 +95,7 @@ struct hashTable *createMap(int tableSize, int ID) {
 
 	struct hashTable *h;
 	h = malloc(sizeof(struct hashTable));
-	assert(h != 0); /* ensure that memory was successfully allocated */
+	assert(h != 0); /* Ensure that memory was successfully allocated */
 
 	_initMap(h, tableSize, ID);
 	return h;
@@ -105,29 +109,44 @@ param3: v - the value to insert - in this case, the number of occurrences - it i
 pre: h is not NULL
 post: map contains the key/value
 post: count has been incremented
-HINT: - You are not going to pass tests for a while
-HINT - If the bucket is not empty, then add to the hashLink to the back of the linked list
-HINT - Use strcmp to compare c-strings
 */
 void insertMap(struct hashTable *h, KeyType k, ValueType v) {
-	/* hash the key */
+    assert(h != NULL);
+
+	/* Hash the key */
 	int hash = _hashValue(k, h->hashID);
 	hash = hash % h->tableSize;
 
-    /* debugging information */
+    /* Debugging information */
 	printf("KEY: %s HASH: %d val:%d \n", k, hash, v);
 
-    	/*
-	Insert the key value pair
-	You need to allocate memory for a new link if the key is new
-
-	Duplicate values - if a duplicate key is found, leave the old key and insert the new value in the link - don't increment count
-	You can't have two hash links for the word 'bobcat', but you can have many links in the same bucket
-	If there is a collision, then traverse the linked list of hash links
-	*/
-
-	/* FIX ME */
-
+	/* Empty bucket insert */
+    if(h->table[hash] == NULL) {
+        struct hashLink *temp = malloc(sizeof(struct hashLink));
+        temp->key = k;
+        temp->value = v;
+        temp->next = NULL;
+        h->table[hash] = temp;
+        h->count++;
+    }
+    /* Collision insert */
+    else {
+        struct hashLink *curr = h->table[hash];
+        /* Duplicate value */
+        while(curr->next != NULL && strcmp(curr->key, k) != 0) {
+            curr = curr->next;
+        }
+        if(strcmp(curr->key, k) == 0) {
+            curr->value = v;
+        } else {
+            struct hashLink *temp = malloc(sizeof(struct hashLink));
+            temp->key = k;
+            temp->value = v;
+            temp->next = NULL;
+            curr->next = temp;
+            h->count++;
+        }
+    }
 
     /* Resize table if necessary */
 	if(tableLoad(h) > LOAD_FACTOR_THRESHOLD) {
@@ -136,7 +155,7 @@ void insertMap(struct hashTable *h, KeyType k, ValueType v) {
 }
 
 /*
-_reSizeTable: Resizes the hash map to the size, newCap. Rehashes all of the current keys.
+_reSizeTable: Resizes the hash map to the size, newCap. Rehashes all the current keys.
 param1: hashTable - the map
 param2: newCap - the new capacity
 pre: h is not NULL
@@ -145,23 +164,33 @@ post: memory for a new hash table has been created
 post: new hash table has cap newCap
 post: all keys have been re-hashed and inserted into new hash table
 post: all the old hash links have been freed
-HINT - use insertMap to re-hash the keys from old to new
 */
 void _reSizeTable(struct hashTable *h, int newCap) {
-	printf("***************************\n");
-	printf("RESIZE\n");
-	printf("***************************\n");
+	printf("*********************** RESIZE ***********************\n");
+    assert(h != NULL);
+    assert(newCap > 0);
 
-	struct hashLink **temp = h->table; /* pointer to the old table */
-	int tempSize = h->tableSize; /* size of the old table */
+	struct hashLink **temp = h->table; /* Pointer to the old table */
+	int tempSize = h->tableSize; /* Size of the old table */
 	struct hashLink *curr, *del; /* Used to free the old hash links and iterate through them */
 
-	h->table = malloc(sizeof(struct hashLink*)*newCap); /* new larger table */
+	h->table = malloc(sizeof(struct hashLink*)*newCap); /* New larger table */
 	_initMap(h, newCap, h->hashID);
 
-	/* re-hash links in new table*/
-	/* FIX ME */
-
+	/* Re-hash links in new table */
+    int i;
+    for(i = 0; i < tempSize; i++) {
+        curr = temp[i];
+        while(curr != NULL) {
+            insertMap(h, curr->key, curr->value);
+            del = curr;
+            curr = curr->next;
+            free(del);
+            del = 0;
+        }
+    }
+    free(temp);
+    temp = 0;
 }
 
 /*
@@ -171,13 +200,20 @@ param2: k - the key to search for
 pre: h is not null
 post: none
 return: return 0 is not found, otherwise return 1
-HINT: Hash the key and check to see if it is in the table
-HINT: This is where you might start passing some tests
-HINT - Use strcmp to compare c-strings
 */
 int containsKey(struct hashTable *h, KeyType k) {
-	/* FIX ME */
+	assert(h != NULL);
 
+    int hash = _hashValue(k, h->hashID);
+    hash = hash % h->tableSize;
+
+    struct hashLink *curr = h->table[hash];
+    while(curr != NULL) {
+        if (strcmp(curr->key, k) == 0) {
+            return 1;
+        }
+        curr = curr->next;
+    }
 	return 0;
 }
 
@@ -190,12 +226,30 @@ post: key has been removed from the table
 post: if unable to find the key, then print an appropriate message
 post: count has been decremented
 post: memory for the hash link has been freed
-HINT: Check if the key is the first in the chain - this is a special case
-HINT - Use strcmp to compare c-strings
  */
 void removeKey(struct hashTable *h, KeyType k) {
-    /* FIX ME */
+    assert(h != NULL);
 
+    int hash = _hashValue(k, h->hashID);
+    hash = hash % h->tableSize;
+
+    struct hashLink *curr = h->table[hash];
+    struct hashLink *prev = NULL;
+
+    while(curr != NULL) {
+        if(strcmp(curr->key, k) == 0) {
+            if (prev == NULL) {
+                h->table[hash] = curr->next;
+            } else {
+                prev->next = curr->next;
+            }
+            free(curr);
+            h->count--;
+            return;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
 }
 
 /*
@@ -206,11 +260,21 @@ return: return the value found at the key - return 0 if not found
 pre: h is not null
 pre: k is in the hash table
 post: none
-HINT - Use strcmp to compare c-strings
 */
 ValueType valAtKey(struct hashTable *h, KeyType k) {
-	/* FIX ME */
+    assert(h != NULL);
+    assert(containsKey(h, k) == 1);
 
+    int hash = _hashValue(k, h->hashID);
+    hash = hash % h->tableSize;
+
+    struct hashLink *curr = h->table[hash];
+    while(curr != NULL) {
+        if (strcmp(curr->key, k) == 0) {
+            return curr->value;
+        }
+        curr = curr->next;
+    }
 	return 0;
 }
 
@@ -220,12 +284,18 @@ param1: h - the hash table
 pre: h is not null
 post: no changes to the table
 return: the number of empty buckets in the table
-HINT - you need to check the hash map for NULLs
 */
 int getEmptyBuckets(struct hashTable *h) {
-	/* FIX ME */
+    assert(h != NULL);
 
-	return 0;
+    int emptyCount = 0;
+    int i;
+    for(i = 0; i < h->tableSize; i++) {
+        if (h->table[i] == NULL) {
+            emptyCount++;
+        }
+    }
+	return emptyCount;
 }
 
 /*
@@ -234,12 +304,18 @@ param1: h - the map
 pre: h is not NULL
 return: the bucketCount of the hash table
 post: none
-HINT: this is the number of non-empty buckets in the table
 */
 int getFullBuckets(struct hashTable *h) {
-	/* FIX ME */
+    assert(h != NULL);
 
-	return 0;
+    int fullCount = 0;
+    int i;
+    for(i = 0; i < h->tableSize; i++) {
+        if (h->table[i] != NULL) {
+            fullCount++;
+        }
+    }
+    return fullCount;
 }
 
 /*
@@ -250,9 +326,18 @@ return: the number of hash links in the table
 post: none
 */
 int getLinkCount(struct hashTable *h) {
-	/* FIX ME */
+    assert(h != NULL);
 
-	return 0;
+    int linkCount = 0;
+    int i;
+    for(i = 0; i < h->tableSize; i++) {
+        struct hashLink *curr = h->table[i];
+        if (curr != NULL) {
+            linkCount++;
+            curr = curr->next;
+        }
+    }
+    return linkCount;
 }
 
 /*
@@ -263,9 +348,8 @@ return: return the tableSize
 post: no changes to the map
 */
 int getMapSize(struct hashTable *h) {
-	/* FIX ME */
-
-	return 0;
+    assert(h != NULL);
+	return h->tableSize;
 }
 
 /*
@@ -276,13 +360,10 @@ param1: h - the hash table
 pre: h is not null
 post: no changes to the table
 return: returns the ratio of: full buckets / table size
-HINT - use getFullBuckets() and getMapSize()
-HINT - cast one of the operands to a float, otherwise you have integer division
 */
 float tableLoad(struct hashTable *h) {
-	/* FIX ME */
-
-	return 0;
+    assert(h != NULL);
+	return (float)getFullBuckets(h) / getMapSize(h);
 }
 
 /*
@@ -295,12 +376,26 @@ bucket x: key (value), key (value, ....
 Ex. Bucket 1: cat (1), dog (1), the (5)...
 */
 void printMap(struct hashTable *h) {
-	/* FIX ME */
+    assert(h != NULL);
 
+    struct hashLink *curr = NULL;
+    int i;
+    for(i = 0; i < h->tableSize; i++) {
+        printf("Bucket %d: ", i);
+        curr = h->table[i];
+        while(curr != NULL) {
+            printf("%s (%d)", curr->key, curr->value);
+            if(curr->next != NULL) {
+                printf(", ");
+            }
+            curr = curr->next;
+        }
+        printf("\n");
+    }
 }
 
 /*
-freeMap: deallocate buckets and the hash map
+deleteMap: deallocate buckets and the hash map
 param1: h - the hash map
 pre: - h is not null
 post: memory used by the hash links has been freed - use _freeMap
@@ -309,8 +404,8 @@ post: memory used by the hash table has been freed
 void deleteMap(struct hashTable *h) {
 	assert(h != NULL);
 
-	_freeMap(h);/* free all memory used by the buckets */
-	free(h->table);/* free the array of hash link pointers */
+	_freeMap(h); /* Free all memory used by the buckets */
+	free(h->table); /* Free the array of hash link pointers */
 }
 
 /*
