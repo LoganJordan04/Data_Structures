@@ -159,8 +159,6 @@ int main () {
     printf("Closing file\n");
     fclose(filePtr);
 
-    //UNCOMMENT AFTER YOU GET THE MAP WORKING
-    /*
 
     printf("--------------- Testing table stats 2 --------------- \n");
 
@@ -172,7 +170,7 @@ int main () {
 	concord = createMap(10, 2);
 
 
-	//instead of calling insert, we call concordance
+	/* instead of calling insert, we call concordance */
     while((word = getWord(filePtr)) != '\0') {
         concordance(concord, word);
     }
@@ -183,9 +181,6 @@ int main () {
     printf("full buckets: %d \n", getFullBuckets(concord));
     printf("empty buckets: %d \n", getEmptyBuckets(concord));
     printf("link count: %d \n", getLinkCount(concord));
-
-    */
-
 
 
 	return 0;
