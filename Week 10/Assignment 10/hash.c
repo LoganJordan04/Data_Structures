@@ -132,10 +132,10 @@ void insertMap(struct hashTable *h, KeyType k, ValueType v) {
     /* Collision insert */
     else {
         struct hashLink *curr = h->table[hash];
-        /* Duplicate value */
         while(curr->next != NULL && strcmp(curr->key, k) != 0) {
             curr = curr->next;
         }
+        /* Duplicate value */
         if(strcmp(curr->key, k) == 0) {
             curr->value = v;
         } else {
@@ -244,12 +244,14 @@ void removeKey(struct hashTable *h, KeyType k) {
                 prev->next = curr->next;
             }
             free(curr);
+            curr = 0;
             h->count--;
             return;
         }
         prev = curr;
         curr = curr->next;
     }
+    printf("Key not found: %s\n", k);
 }
 
 /*
@@ -332,7 +334,7 @@ int getLinkCount(struct hashTable *h) {
     int i;
     for(i = 0; i < h->tableSize; i++) {
         struct hashLink *curr = h->table[i];
-        if (curr != NULL) {
+        while (curr != NULL) {
             linkCount++;
             curr = curr->next;
         }
@@ -415,22 +417,36 @@ pre: - h is not null
 post: memory used by the hash buckets has been freed
 */
 void _freeMap (struct hashTable *h) {
-	/* FIX ME */
+    assert(h != NULL);
 
+    struct hashLink *curr, *temp;
+    int i;
+    for(i = 0; i < h->tableSize; i++) {
+        curr = h->table[i];
+        while(curr != NULL) {
+            temp = curr;
+            curr = curr->next;
+            free(temp);
+            temp = 0;
+        }
+    }
 }
 
 /*
 concordance: create a hash table which contains word frequencies
-param1: ht - the hash table
+param1: h - the hash table
 param2: word - the current word to hash
-pre: ht is not NULL
+pre: h is not NULL
 post: key and value is now updated
 if the key already exists, add 1 to the value
-HINT - this is almost a normal insert, the difference is that the value is not always 1
-HINT: If key exists, then increment the value
-HINT - use valAtKey() and insertMap()
 */
 void concordance(struct hashTable *h, char *word) {
-    /* FIX ME */
+    assert(h != NULL);
 
+    if (containsKey(h, word)) {
+        int currentVal = valAtKey(h, word);
+        insertMap(h, word, currentVal + 1);
+    } else {
+        insertMap(h, word, 1);
+    }
 }
