@@ -14,7 +14,7 @@
 
 * **Week 6 - Trees**
 
-* *Week 7 - Midterm*
+* *Week 7 - Review & Midterm*
 
 * **Week 8 - Heaps & Priority Queues**
 
@@ -22,4 +22,4 @@
 
 * **Week 10 - Hash Tables**
 
-* *Week 11 - Final*
+* *Week 11 - Final Review*
